@@ -1,6 +1,6 @@
 <div class="project-header">
   <h1>Zoneless Demo</h1>
-  <p>Demonstrates Zoneless mode with OnPush change detection strategy</p>
+  <p>Demonstrates Angular without Zone.js</p>
 </div>
 
 <div style="margin-bottom:16px;">
@@ -9,11 +9,19 @@
 </div>
 
 <div #appContainer class="block" *ngIf="view==='forms'">
-  <p>AppComponent (OnPush)</p>
-  <app-parent></app-parent>
+  <div class="content-section">
+    <p>AppComponent (Default)</p>
+    <app-parent></app-parent>
+  </div>
+  <div class="test-section">
+    <app-mouse-test></app-mouse-test>
+    <app-timer></app-timer>
+  </div>
 </div>
 
 <div #appContainer class="block" *ngIf="view==='coalesce'">
-  <p>AppComponent (OnPush)</p>
-  <app-coalescing-demo></app-coalescing-demo>
+  <div class="content-section">
+    <p>AppComponent (Default)</p>
+    <app-coalescing-demo></app-coalescing-demo>
+  </div>
 </div>

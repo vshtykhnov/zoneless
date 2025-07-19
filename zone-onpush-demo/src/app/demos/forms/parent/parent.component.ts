@@ -8,34 +8,22 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { ChildComponent } from '../child/child.component';
-import { MouseTestComponent } from '../mouse-test/mouse-test.component';
 
 @Component({
   selector: 'app-parent',
   standalone: true,
-  imports: [ChildComponent, MouseTestComponent],
+  imports: [ChildComponent],
   template: `
-    <div class="forms-container">
-      <div #container class="block">
-        <p>ParentComponent (OnPush)</p>
-        <app-child></app-child>
-      </div>
-
-      <app-mouse-test></app-mouse-test>
+    <div #container class="block">
+      <p>ParentComponent (OnPush)</p>
+      <app-child></app-child>
     </div>
   `,
   styles: `
-    .forms-container {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-    }
-    
     .block { 
       border: 2px solid green; 
       padding: 24px; 
       margin: 8px; 
-      flex: 1;
     }
     
     .flash-outline { box-shadow: 0 0 0 2px red; transition: box-shadow 0.2s ease; }

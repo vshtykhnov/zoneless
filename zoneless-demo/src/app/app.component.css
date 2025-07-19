@@ -1,41 +1,36 @@
 /* Project header styles */
 .project-header {
-  background: linear-gradient(135deg, #ff5722, #d32f2f);
+  background: #ff9800;
   color: white;
-  padding: 20px;
-  margin: -16px -16px 20px -16px;
-  text-align: center;
-  border-radius: 8px 8px 0 0;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
 }
 
 .project-header h1 {
   margin: 0 0 8px 0;
-  font-size: 2em;
-  font-weight: bold;
 }
 
 .project-header p {
   margin: 0;
   opacity: 0.9;
-  font-size: 1.1em;
 }
 
 /* Button styles */
 button {
-  background: #ff5722;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
+  margin-right: 8px;
+  padding: 8px 16px;
+  border: 1px solid #ff9800;
+  background: white;
+  color: #ff9800;
+  border-radius: 4px;
   cursor: pointer;
-  margin-right: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 button:hover {
-  background: #d32f2f;
+  background: #ff9800;
+  color: white;
 }
 
 button:active {
@@ -44,17 +39,31 @@ button:active {
 
 /* Block styles */
 .block {
-  margin: 16px 0;
-  padding: 16px;
-  border: 1px solid #ddd;
+  border: 2px solid #ff9800;
+  padding: 24px;
+  margin: 8px;
   border-radius: 8px;
-  background: #f9f9f9;
+  background: #f8f9fa;
+}
+
+.block {
+  display: flex;
+  align-items: flex-start;
 }
 
 /* Flash outline for change detection visualization */
-.flash-outline { 
-  box-shadow: 0 0 0 2px red; 
-  transition: box-shadow 0.2s ease; 
+.flash-outline {
+  box-shadow: 0 0 0 2px red;
+  transition: box-shadow 0.2s ease;
+}
+
+.content-section {
+  flex: 1;
+}
+
+.test-section {
+  flex: 0 0 300px;
+  margin-left: 16px;
 }
 
 .mouse-test-zoneless {

@@ -9,11 +9,19 @@
 </div>
 
 <div #appContainer class="block" *ngIf="view==='forms'">
-  <p>AppComponent (Default)</p>
-  <app-parent></app-parent>
+  <div class="content-section">
+    <p>AppComponent (Default)</p>
+    <app-parent></app-parent>
+  </div>
+  <div class="test-section">
+    <app-mouse-test></app-mouse-test>
+    <app-timer></app-timer>
+  </div>
 </div>
 
 <div #appContainer class="block" *ngIf="view==='coalesce'">
-  <p>AppComponent (Default)</p>
-  <app-coalescing-demo></app-coalescing-demo>
+  <div class="content-section">
+    <p>AppComponent (Default)</p>
+    <app-coalescing-demo></app-coalescing-demo>
+  </div>
 </div>

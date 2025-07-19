@@ -8,12 +8,20 @@ import {
 } from '@angular/core';
 import { ParentComponent } from './demos/forms/parent/parent.component';
 import { CoalescingDemoComponent } from './demos/coalesce/coalescing-demo/coalescing-demo.component';
+import { MouseTestComponent } from './demos/forms/mouse-test/mouse-test.component';
+import { TimerComponent } from './demos/forms/timer/timer.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, ParentComponent, CoalescingDemoComponent],
+  imports: [
+    CommonModule,
+    ParentComponent,
+    CoalescingDemoComponent,
+    MouseTestComponent,
+    TimerComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -33,7 +41,7 @@ export class AppComponent implements DoCheck {
   }
 
   ngDoCheck() {
-    console.log('AppComponent change detection (Zone + OnPush)');
+    console.log('AppComponent change detection (Zone)');
     if (this.appContainer?.nativeElement) {
       const el = this.appContainer.nativeElement;
       this.renderer.addClass(el, 'flash-outline');
