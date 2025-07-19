@@ -1,0 +1,31 @@
+.block {
+  border: 2px solid gray;
+  padding: 24px;
+  margin: 8px;
+}
+
+.mouse-test-zoneless {
+  border: 2px solid #dc3545;
+  padding: 20px;
+  margin: 20px 0;
+  background-color: #f8d7da;
+  border-radius: 8px;
+  min-height: 150px;
+}
+
+.mouse-test-zoneless:hover {
+  background-color: #f5c6cb;
+}
+
+.mouse-test-zoneless-template {
+  border: 2px solid #fd7e14;
+  padding: 20px;
+  margin: 20px 0;
+  background-color: #fff3cd;
+  border-radius: 8px;
+  min-height: 150px;
+}
+
+.mouse-test-zoneless-template:hover {
+  background-color: #ffeaa7;
+}

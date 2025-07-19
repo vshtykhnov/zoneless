@@ -1,0 +1,31 @@
+.block {
+  border: 2px solid gray;
+  padding: 24px;
+  margin: 8px;
+}
+
+.mouse-test-zone {
+  border: 2px solid #28a745;
+  padding: 20px;
+  margin: 20px 0;
+  background-color: #d4edda;
+  border-radius: 8px;
+  min-height: 150px;
+}
+
+.mouse-test-zone:hover {
+  background-color: #c3e6cb;
+}
+
+.mouse-test-zone-template {
+  border: 2px solid #17a2b8;
+  padding: 20px;
+  margin: 20px 0;
+  background-color: #d1ecf1;
+  border-radius: 8px;
+  min-height: 150px;
+}
+
+.mouse-test-zone-template:hover {
+  background-color: #bee5eb;
+}

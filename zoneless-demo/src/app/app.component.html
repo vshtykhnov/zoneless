@@ -1,0 +1,33 @@
+<div style="margin-bottom:16px;">
+  <button (click)="select('forms')">Micro-interaction Forms Demo</button>
+  <button (click)="select('counter')">Outside-Zone Counter Demo</button>
+  <button (click)="select('coalesce')">Microtasks Coalescing Demo</button>
+</div>
+
+<div class="block" *ngIf="view==='forms'">
+  <app-parent></app-parent>
+</div>
+
+<div class="block" *ngIf="view==='counter'">
+  <app-counter-parent></app-counter-parent>
+</div>
+
+<div class="block" *ngIf="view==='coalesce'">
+  <app-coalescing-demo></app-coalescing-demo>
+</div>
+
+<!-- Тест mousemove для zoneless режима -->
+<div #mouseTestArea class="mouse-test-zoneless">
+  <h3>Mouse Move Test (Zoneless Mode)</h3>
+  <p>Двигайте мышью по этой области</p>
+  <p>Счетчик движений: {{ mouseMoveCount }}</p>
+  <p><strong>В Zoneless режиме нужен detectChanges()!</strong></p>
+</div>
+
+<!-- Тест template mousemove для zoneless режима -->
+<div class="mouse-test-zoneless-template" (mousemove)="onTemplateMouseMove()">
+  <h3>Template Mouse Move Test (Zoneless Mode)</h3>
+  <p>Двигайте мышью по этой области</p>
+  <p>Счетчик движений: {{ templateMouseMoveCount }}</p>
+  <p><strong>Template events запускают глобальную детекцию!</strong></p>
+</div>
