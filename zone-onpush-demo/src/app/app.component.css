@@ -1,6 +1,6 @@
 /* Project header styles */
 .project-header {
-  background: linear-gradient(135deg, #ff5722, #d32f2f);
+  background: linear-gradient(135deg, #9c27b0, #7b1fa2);
   color: white;
   padding: 20px;
   margin: -16px -16px 20px -16px;
@@ -22,7 +22,7 @@
 
 /* Button styles */
 button {
-  background: #ff5722;
+  background: #9c27b0;
   color: white;
   border: none;
   padding: 12px 24px;
@@ -35,7 +35,7 @@ button {
 }
 
 button:hover {
-  background: #d32f2f;
+  background: #7b1fa2;
 }
 
 button:active {
@@ -51,28 +51,50 @@ button:active {
   background: #f9f9f9;
 }
 
-.mouse-test-zoneless {
-  border: 2px solid #dc3545;
+/* Стили для mouse move тестов */
+.mouse-test-zone-onpush,
+.mouse-test-zone-onpush-template {
+  border: 2px solid #9c27b0;
+  padding: 16px;
+  margin: 16px 0;
+  background: #f3e5f5;
+  border-radius: 8px;
+}
+
+.mouse-test-zone-onpush h3,
+.mouse-test-zone-onpush-template h3 {
+  margin-top: 0;
+  color: #7b1fa2;
+}
+
+.mouse-test-zone-onpush p,
+.mouse-test-zone-onpush-template p {
+  margin: 8px 0;
+}
+
+.mouse-test-zone {
+  border: 2px solid #28a745;
   padding: 20px;
   margin: 20px 0;
-  background-color: #f8d7da;
+  background-color: #d4edda;
   border-radius: 8px;
   min-height: 150px;
 }
 
-.mouse-test-zoneless:hover {
-  background-color: #f5c6cb;
+.mouse-test-zone:hover {
+  background-color: #c3e6cb;
 }
 
-.mouse-test-zoneless-template {
-  border: 2px solid #fd7e14;
+.mouse-test-zone-template {
+  border: 2px solid #17a2b8;
   padding: 20px;
   margin: 20px 0;
-  background-color: #fff3cd;
+  background-color: #d1ecf1;
   border-radius: 8px;
   min-height: 150px;
 }
 
-.mouse-test-zoneless-template:hover {
-  background-color: #ffeaa7;
+.mouse-test-zone-template:hover {
+  background-color: #bee5eb;
 }
+

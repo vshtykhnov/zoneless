@@ -1,33 +1,17 @@
+<div class="project-header">
+  <h1>Zone + Default Demo</h1>
+  <p>Demonstrates Zone.js with Default change detection strategy</p>
+</div>
+
 <div style="margin-bottom:16px;">
   <button (click)="select('forms')">Micro-interaction Forms Demo</button>
-  <button (click)="select('counter')">Outside-Zone Counter Demo</button>
-  <button (click)="select('coalesce')">Microtasks Coalescing Demo</button>
+  <button (click)="select('coalesce')">Coalescing Microtasks Demo</button>
 </div>
 
 <div class="block" *ngIf="view==='forms'">
   <app-parent></app-parent>
 </div>
 
-<div class="block" *ngIf="view==='counter'">
-  <app-counter-parent></app-counter-parent>
-</div>
-
 <div class="block" *ngIf="view==='coalesce'">
   <app-coalescing-demo></app-coalescing-demo>
-</div>
-
-<!-- Тест mousemove для zone режима -->
-<div #mouseTestArea class="mouse-test-zone">
-  <h3>Mouse Move Test (Zone Mode)</h3>
-  <p>Двигайте мышью по этой области</p>
-  <p>Счетчик движений: {{ mouseMoveCount }}</p>
-  <p><strong>В Zone режиме обновляется автоматически!</strong></p>
-</div>
-
-<!-- Тест template mousemove для zone режима -->
-<div class="mouse-test-zone-template" (mousemove)="onTemplateMouseMove()">
-  <h3>Template Mouse Move Test (Zone Mode)</h3>
-  <p>Двигайте мышью по этой области</p>
-  <p>Счетчик движений: {{ templateMouseMoveCount }}</p>
-  <p><strong>Template events тоже обновляются автоматически!</strong></p>
 </div>

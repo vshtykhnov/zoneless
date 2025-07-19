@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.component.css',
 })
 export class AppComponent implements DoCheck {
-  title = 'zone-demo';
+  title = 'zone-onpush-demo';
 
   view: 'forms' | 'coalesce' = 'forms';
 
@@ -20,6 +20,6 @@ export class AppComponent implements DoCheck {
   }
 
   ngDoCheck() {
-    console.log('AppComponent change detection (Zone)');
+    console.log('AppComponent change detection (Zone + OnPush)');
   }
 }

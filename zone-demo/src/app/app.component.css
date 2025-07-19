@@ -1,7 +1,54 @@
+/* Project header styles */
+.project-header {
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+  color: white;
+  padding: 20px;
+  margin: -16px -16px 20px -16px;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+}
+
+.project-header h1 {
+  margin: 0 0 8px 0;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.project-header p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 1.1em;
+}
+
+/* Button styles */
+button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background: #2e7d32;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+/* Block styles */
 .block {
-  border: 2px solid gray;
-  padding: 24px;
-  margin: 8px;
+  margin: 16px 0;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
 }
 
 .mouse-test-zone {

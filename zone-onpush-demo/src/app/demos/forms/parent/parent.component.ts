@@ -7,7 +7,6 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   OnInit,
-  ChangeDetectorRef,
 } from '@angular/core';
 import { ChildComponent } from '../child/child.component';
 
@@ -18,23 +17,25 @@ import { ChildComponent } from '../child/child.component';
   template: `
     <div class="forms-container">
       <div #container class="block">
-        <p>Parent works! (Zoneless)</p>
+        <p>Parent works! (Zone + OnPush)</p>
         <app-child></app-child>
       </div>
 
       <div class="mouse-tests">
-        <div #mouseTestArea class="mouse-test-zoneless">
-          <h3>Mouse Move Test (Zoneless Mode)</h3>
+        <div #mouseTestArea class="mouse-test-zone-onpush">
+          <h3>Mouse Move Test (Zone + OnPush)</h3>
           <p>Move your mouse over this area</p>
           <p>Movement counter: {{ mouseMoveCount }}</p>
-          <p><strong>In Zoneless mode, detectChanges() is needed!</strong></p>
+          <p>
+            <strong>In Zone + OnPush mode, detectChanges() is needed!</strong>
+          </p>
         </div>
 
         <div
-          class="mouse-test-zoneless-template"
+          class="mouse-test-zone-onpush-template"
           (mousemove)="onTemplateMouseMove()"
         >
-          <h3>Template Mouse Move Test (Zoneless Mode)</h3>
+          <h3>Template Mouse Move Test (Zone + OnPush)</h3>
           <p>Move your mouse over this area</p>
           <p>Movement counter: {{ templateMouseMoveCount }}</p>
           <p>
@@ -65,23 +66,23 @@ import { ChildComponent } from '../child/child.component';
       gap: 16px;
     }
     
-    .mouse-test-zoneless,
-    .mouse-test-zoneless-template {
-      border: 2px solid #ff5722;
+    .mouse-test-zone-onpush,
+    .mouse-test-zone-onpush-template {
+      border: 2px solid #9c27b0;
       padding: 16px;
       margin: 0;
-      background: #ffebee;
+      background: #f3e5f5;
       border-radius: 8px;
     }
 
-    .mouse-test-zoneless h3,
-    .mouse-test-zoneless-template h3 {
+    .mouse-test-zone-onpush h3,
+    .mouse-test-zone-onpush-template h3 {
       margin-top: 0;
-      color: #d32f2f;
+      color: #7b1fa2;
     }
 
-    .mouse-test-zoneless p,
-    .mouse-test-zoneless-template p {
+    .mouse-test-zone-onpush p,
+    .mouse-test-zone-onpush-template p {
       margin: 8px 0;
     }
     
@@ -98,33 +99,28 @@ export class ParentComponent implements DoCheck, OnInit {
   mouseMoveCount = 0;
   templateMouseMoveCount = 0;
 
-  constructor(
-    private ngZone: NgZone,
-    private renderer: Renderer2,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private ngZone: NgZone, private renderer: Renderer2) {}
 
   ngOnInit() {
     this.mouseTestArea.nativeElement.addEventListener('mousemove', () => {
       this.mouseMoveCount++;
       console.log(
-        'Zoneless Demo - Mouse move detected, count:',
+        'Zone OnPush Demo - Mouse move detected, count:',
         this.mouseMoveCount
       );
-      this.cdr.detectChanges();
     });
   }
 
   onTemplateMouseMove() {
     this.templateMouseMoveCount++;
     console.log(
-      'Zoneless Demo - Template mouse move detected, count:',
+      'Zone OnPush Demo - Template mouse move detected, count:',
       this.templateMouseMoveCount
     );
   }
 
   ngDoCheck() {
-    console.log('ParentComponent change detection (Zoneless)');
+    console.log('ParentComponent change detection (Zone + OnPush)');
     const el = this.container.nativeElement;
     this.renderer.addClass(el, 'flash-outline');
     this.ngZone.runOutsideAngular(() => {
