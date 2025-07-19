@@ -51,6 +51,12 @@ button:active {
   background: #f9f9f9;
 }
 
+/* Flash outline for change detection visualization */
+.flash-outline { 
+  box-shadow: 0 0 0 2px red; 
+  transition: box-shadow 0.2s ease; 
+}
+
 .mouse-test-zone {
   border: 2px solid #28a745;
   padding: 20px;

@@ -3,9 +3,9 @@ import {
   DoCheck,
   ElementRef,
   Renderer2,
-  ChangeDetectorRef,
-  ChangeDetectionStrategy,
+  NgZone,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { GrandchildComponent } from '../grandchild/grandchild.component';
 import { CheckoutFormComponent } from '../checkout-form/checkout-form.component';
@@ -16,7 +16,7 @@ import { CheckoutFormComponent } from '../checkout-form/checkout-form.component'
   imports: [GrandchildComponent, CheckoutFormComponent],
   template: `
     <div #container class="block" style="border: 2px dashed lightblue;">
-      <p>Child works! (Zoneless with OnPush)</p>
+      <p>ChildComponent (OnPush)</p>
       <app-checkout-form></app-checkout-form>
       <app-grandchild></app-grandchild>
     </div>
@@ -31,17 +31,18 @@ export class ChildComponent implements DoCheck {
   private flashTimeout: any;
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
 
-  constructor(private renderer: Renderer2, private cdr: ChangeDetectorRef) {}
+  constructor(private ngZone: NgZone, private renderer: Renderer2) {}
 
   ngDoCheck() {
     console.log('ChildComponent change detection (Zoneless)');
     const el = this.container.nativeElement;
     this.renderer.addClass(el, 'flash-outline');
-
-    clearTimeout(this.flashTimeout);
-    this.flashTimeout = setTimeout(
-      () => this.renderer.removeClass(el, 'flash-outline'),
-      200
-    );
+    this.ngZone.runOutsideAngular(() => {
+      clearTimeout(this.flashTimeout);
+      this.flashTimeout = setTimeout(
+        () => this.renderer.removeClass(el, 'flash-outline'),
+        200
+      );
+    });
   }
 }

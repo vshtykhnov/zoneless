@@ -8,10 +8,12 @@
   <button (click)="select('coalesce')">Coalescing Microtasks Demo</button>
 </div>
 
-<div class="block" *ngIf="view==='forms'">
+<div #appContainer class="block" *ngIf="view==='forms'">
+  <p>AppComponent (Default)</p>
   <app-parent></app-parent>
 </div>
 
-<div class="block" *ngIf="view==='coalesce'">
+<div #appContainer class="block" *ngIf="view==='coalesce'">
+  <p>AppComponent (Default)</p>
   <app-coalescing-demo></app-coalescing-demo>
 </div>

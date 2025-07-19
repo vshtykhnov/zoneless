@@ -16,7 +16,7 @@ import { CheckoutFormComponent } from '../checkout-form/checkout-form.component'
   imports: [GrandchildComponent, CheckoutFormComponent],
   template: `
     <div #container class="block" style="border: 2px dashed lightblue;">
-      <p>Child works! (Zone + OnPush)</p>
+      <p>ChildComponent (OnPush)</p>
       <app-checkout-form></app-checkout-form>
       <app-grandchild></app-grandchild>
     </div>

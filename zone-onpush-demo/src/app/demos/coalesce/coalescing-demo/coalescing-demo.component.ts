@@ -19,9 +19,12 @@ import { CommonModule } from '@angular/common';
       <div class="explanation">
         <h4>Expected behavior in Zone + OnPush:</h4>
         <ul>
-          <li>✅ Each Promise.then automatically triggers change detection</li>
+          <li>
+            ⚠️ Promise.then does NOT automatically trigger change detection
+          </li>
+          <li>⚠️ Need to call detectChanges() manually</li>
           <li>✅ Counter updates 5 times: 1 → 2 → 3 → 4 → 5</li>
-          <li>✅ No detectChanges() needed - Zone.js does it automatically</li>
+          <li>✅ detectChanges() updates UI immediately</li>
         </ul>
       </div>
     </div>
@@ -97,6 +100,7 @@ export class CoalescingDemoComponent {
       Promise.resolve().then(() => {
         this.counter = i;
         console.log('microtask', i, 'counter =', this.counter);
+        this.cdr.detectChanges();
       });
     }
   }

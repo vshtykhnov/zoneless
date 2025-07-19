@@ -15,7 +15,7 @@ import { CheckoutFormComponent } from '../checkout-form/checkout-form.component'
   imports: [GrandchildComponent, CheckoutFormComponent],
   template: `
     <div #container class="block" style="border: 2px dashed lightblue;">
-      <p>Child works! (form below)</p>
+      <p>ChildComponent (Default)</p>
       <app-checkout-form></app-checkout-form>
       <app-grandchild></app-grandchild>
     </div>
@@ -32,7 +32,7 @@ export class ChildComponent implements DoCheck {
   constructor(private ngZone: NgZone, private renderer: Renderer2) {}
 
   ngDoCheck() {
-    console.log('ChildComponent change detection');
+    console.log('ChildComponent change detection (Zone)');
     const el = this.container.nativeElement;
     this.renderer.addClass(el, 'flash-outline');
     this.ngZone.runOutsideAngular(() => {

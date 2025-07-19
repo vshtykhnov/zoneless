@@ -14,14 +14,14 @@ import {
   standalone: true,
   template: `
     <div #container class="block">
-      <p>Grandchild works! (Zoneless with OnPush)</p>
+      <p>GrandchildComponent (OnPush)</p>
       <div>Timer: {{ timerCount }}</div>
       <button
         (click)="toggleTimer()"
         [class.active]="isTimerActive"
         class="timer-btn"
       >
-        {{ isTimerActive ? 'Остановить таймер' : 'Запустить таймер' }}
+        {{ isTimerActive ? 'Stop Timer' : 'Start Timer' }}
       </button>
     </div>
   `,
@@ -65,7 +65,6 @@ export class GrandchildComponent implements DoCheck, OnDestroy {
     } else {
       this.startTimer();
     }
-    // Ручной запуск детекции изменений при изменении состояния
     this.cdr.detectChanges();
   }
 
@@ -74,7 +73,6 @@ export class GrandchildComponent implements DoCheck, OnDestroy {
     this.timerInterval = setInterval(() => {
       this.timerCount++;
       console.log('Grandchild timer tick:', this.timerCount);
-      // Ручной запуск детекции изменений для таймера в zoneless режиме
       this.cdr.detectChanges();
     }, 1000);
   }

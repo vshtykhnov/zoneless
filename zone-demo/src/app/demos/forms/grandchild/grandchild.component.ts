@@ -13,14 +13,14 @@ import {
   standalone: true,
   template: `
     <div #container class="block">
-      <p>Grandchild works!</p>
+      <p>GrandchildComponent (Default)</p>
       <div>Timer: {{ timerCount }}</div>
       <button
         (click)="toggleTimer()"
         [class.active]="isTimerActive"
         class="timer-btn"
       >
-        {{ isTimerActive ? 'Остановить таймер' : 'Запустить таймер' }}
+        {{ isTimerActive ? 'Stop Timer' : 'Start Timer' }}
       </button>
     </div>
   `,
@@ -69,7 +69,7 @@ export class GrandchildComponent implements DoCheck, OnDestroy {
     this.isTimerActive = true;
     this.timerInterval = setInterval(() => {
       this.timerCount++;
-      console.log('Grandchild timer tick:', this.timerCount);
+      console.log('Grandchild timer tick (Zone + Default):', this.timerCount);
     }, 1000);
   }
 
@@ -82,7 +82,7 @@ export class GrandchildComponent implements DoCheck, OnDestroy {
   }
 
   ngDoCheck() {
-    console.log('GrandchildComponent change detection');
+    console.log('GrandchildComponent change detection (Zone + Default)');
     const el = this.container.nativeElement;
     this.renderer.addClass(el, 'flash-outline');
     this.ngZone.runOutsideAngular(() => {

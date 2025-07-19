@@ -7,6 +7,7 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 @Component({
@@ -14,14 +15,14 @@ import {
   standalone: true,
   template: `
     <div #container class="block" style="border: 2px dotted orange;">
-      <p>Grandchild works! (Zone + OnPush)</p>
+      <p>GrandchildComponent (OnPush)</p>
       <div>Timer: {{ timerCount }}</div>
       <button
         (click)="toggleTimer()"
         [class.active]="isTimerActive"
         class="timer-btn"
       >
-        {{ isTimerActive ? 'Остановить таймер' : 'Запустить таймер' }}
+        {{ isTimerActive ? 'Stop Timer' : 'Start Timer' }}
       </button>
     </div>
   `,
@@ -57,7 +58,11 @@ export class GrandchildComponent implements DoCheck, OnDestroy {
   isTimerActive = false;
   private timerInterval: any;
 
-  constructor(private ngZone: NgZone, private renderer: Renderer2) {}
+  constructor(
+    private ngZone: NgZone,
+    private renderer: Renderer2,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   toggleTimer() {
     if (this.isTimerActive) {
@@ -72,6 +77,7 @@ export class GrandchildComponent implements DoCheck, OnDestroy {
     this.timerInterval = setInterval(() => {
       this.timerCount++;
       console.log('Grandchild timer tick (Zone + OnPush):', this.timerCount);
+      this.cdr.detectChanges();
     }, 1000);
   }
 
