@@ -5,6 +5,7 @@ import {
   NgZone,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-coalescing-demo',
@@ -12,18 +13,15 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <div class="coalesce-demo">
-      <h3>Coalescing Microtasks Demo (Zone + Default)</h3>
-      <p>Count: {{ counter }}</p>
-      <button (click)="runSequence()">Run Microtask Sequence</button>
-
-      <div class="explanation">
-        <h4>Expected behavior in Zone + Default:</h4>
-        <ul>
-          <li>✅ Each Promise.then automatically triggers change detection</li>
-          <li>✅ Counter updates 5 times: 1 → 2 → 3 → 4 → 5</li>
-          <li>✅ No detectChanges() needed - Zone.js does it automatically</li>
-          <li>✅ Default strategy allows all changes to update</li>
-        </ul>
+      <h3>Coalescing Demo (Zone + Default)</h3>
+      <p>Data: {{ data | json }}</p>
+      <div class="button-group">
+        <button (click)="runMicrotask()">Run Microtask</button>
+        <button (click)="runMacrotask()">Run Macrotask</button>
+      </div>
+      <div class="counter">
+        <span class="counter-label">Change Detection Cycles:</span>
+        <div class="counter-box">{{ changeDetectionCount }}</div>
       </div>
     </div>
   `,
@@ -32,7 +30,7 @@ import { CommonModule } from '@angular/common';
       border: 2px solid #4caf50;
       padding: 20px;
       margin: 16px 0;
-      background: #e8f5e9;
+      background: #e8f5e8;
       border-radius: 8px;
     }
     
@@ -45,6 +43,18 @@ import { CommonModule } from '@angular/common';
       font-size: 1.2em;
       font-weight: bold;
       color: #2e7d32;
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 10px 0;
     }
     
     .coalesce-demo button {
@@ -54,55 +64,78 @@ import { CommonModule } from '@angular/common';
       padding: 10px 20px;
       border-radius: 4px;
       cursor: pointer;
-      margin: 10px 0;
+      font-size: 14px;
     }
     
     .coalesce-demo button:hover {
       background: #2e7d32;
     }
     
-    .explanation {
-      background: white;
-      padding: 15px;
-      border-radius: 4px;
+    .counter {
       margin-top: 15px;
-      border-left: 4px solid #4caf50;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
     }
     
-    .explanation h4 {
-      margin-top: 0;
+    .counter-label {
+      font-size: 16px;
       color: #2e7d32;
     }
     
-    .explanation ul {
-      margin: 10px 0;
-      padding-left: 20px;
-    }
-    
-    .explanation li {
-      margin: 5px 0;
+    .counter-box {
+      width: 60px;
+      height: 40px;
+      border: 2px solid #2e7d32;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #f44336;
+      background: white;
     }
   `,
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class CoalescingDemoComponent {
-  counter = 0;
+  data: any = null;
+  changeDetectionCount = 0;
 
-  constructor(private cdr: ChangeDetectorRef, private ngZone: NgZone) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone,
+    private http: HttpClient
+  ) {}
 
-  runSequence() {
-    this.counter = 0;
-    console.log('Starting microtask sequence in Zone + Default mode');
+  runMicrotask() {
+    console.log('🚀 Starting microtask (Promise.then)');
 
-    for (let i = 1; i <= 5; i++) {
-      Promise.resolve().then(() => {
-        this.counter = i;
-        console.log('microtask', i, 'counter =', this.counter);
-      });
-    }
+    Promise.resolve().then(() => {
+      this.data = {
+        type: 'microtask',
+        value: 'Promise.then executed',
+        timestamp: new Date(),
+      };
+      console.log('✅ Microtask completed - data updated');
+    });
   }
 
-  get isZoneless(): boolean {
-    return !NgZone.isInAngularZone();
+  runMacrotask() {
+    console.log('🚀 Starting macrotask (HTTP request)');
+
+    this.http
+      .get('https://jsonplaceholder.typicode.com/todos/1')
+      .subscribe((res) => {
+        this.data = { type: 'macrotask', value: res, timestamp: new Date() };
+        console.log('✅ Macrotask completed - data received:', res);
+      });
+  }
+
+  ngDoCheck() {
+    this.changeDetectionCount++;
+    console.log('🔄 CoalescingDemoComponent change detection (Zone + Default)');
   }
 }

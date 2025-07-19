@@ -90,7 +90,6 @@ export class CheckoutFormComponent implements DoCheck {
   ngDoCheck() {
     console.log('CheckoutFormComponent change detection');
 
-    // add outline class to form element
     const el = this.container.nativeElement;
     this.renderer.addClass(el, 'flash-outline');
 

@@ -3,10 +3,8 @@ import {
   DoCheck,
   ElementRef,
   Renderer2,
-  ChangeDetectorRef,
   ChangeDetectionStrategy,
   ViewChild,
-  OnInit,
 } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -53,7 +51,7 @@ import { FormFieldComponent } from '../form-field/form-field.component';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutFormComponent implements DoCheck, OnInit {
+export class CheckoutFormComponent implements DoCheck {
   fields = [
     'name',
     'email',
@@ -74,8 +72,7 @@ export class CheckoutFormComponent implements DoCheck, OnInit {
   constructor(
     private fb: FormBuilder,
     private el: ElementRef,
-    private renderer: Renderer2,
-    private cdr: ChangeDetectorRef
+    private renderer: Renderer2
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -88,14 +85,6 @@ export class CheckoutFormComponent implements DoCheck, OnInit {
       expiry: [''],
       cvv: [''],
       notes: [''],
-    });
-  }
-
-  ngOnInit() {
-    // Подписываемся на изменения формы для ручного запуска детекции изменений
-    this.form.valueChanges.subscribe(() => {
-      console.log('Form value changed - triggering change detection');
-      this.cdr.markForCheck();
     });
   }
 

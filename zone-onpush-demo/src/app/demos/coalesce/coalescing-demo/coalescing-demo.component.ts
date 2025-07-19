@@ -5,6 +5,7 @@ import {
   NgZone,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-coalescing-demo',
@@ -12,100 +13,133 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <div class="coalesce-demo">
-      <h3>Coalescing Microtasks Demo (Zone + OnPush)</h3>
-      <p>Count: {{ counter }}</p>
-      <button (click)="runSequence()">Run Microtask Sequence</button>
-
-      <div class="explanation">
-        <h4>Expected behavior in Zone + OnPush:</h4>
-        <ul>
-          <li>
-            ⚠️ Promise.then does NOT automatically trigger change detection
-          </li>
-          <li>⚠️ Need to call detectChanges() manually</li>
-          <li>✅ Counter updates 5 times: 1 → 2 → 3 → 4 → 5</li>
-          <li>✅ detectChanges() updates UI immediately</li>
-        </ul>
+      <h3>Coalescing Demo (Zone + OnPush)</h3>
+      <p>Data: {{ data | json }}</p>
+      <div class="button-group">
+        <button (click)="runMicrotask()">Run Microtask</button>
+        <button (click)="runMacrotask()">Run Macrotask</button>
+      </div>
+      <div class="counter">
+        <span class="counter-label">Change Detection Cycles:</span>
+        <div class="counter-box">{{ changeDetectionCount }}</div>
       </div>
     </div>
   `,
   styles: `
     .coalesce-demo {
-      border: 2px solid #9c27b0;
+      border: 2px solid #2196f3;
       padding: 20px;
       margin: 16px 0;
-      background: #f3e5f5;
+      background: #e3f2fd;
       border-radius: 8px;
     }
     
     .coalesce-demo h3 {
       margin-top: 0;
-      color: #7b1fa2;
+      color: #1976d2;
     }
     
     .coalesce-demo p {
       font-size: 1.2em;
       font-weight: bold;
-      color: #7b1fa2;
+      color: #1976d2;
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 10px 0;
     }
     
     .coalesce-demo button {
-      background: #9c27b0;
+      background: #2196f3;
       color: white;
       border: none;
       padding: 10px 20px;
       border-radius: 4px;
       cursor: pointer;
-      margin: 10px 0;
+      font-size: 14px;
     }
     
     .coalesce-demo button:hover {
-      background: #7b1fa2;
+      background: #1976d2;
     }
     
-    .explanation {
-      background: white;
-      padding: 15px;
-      border-radius: 4px;
+    .counter {
       margin-top: 15px;
-      border-left: 4px solid #9c27b0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
     }
     
-    .explanation h4 {
-      margin-top: 0;
-      color: #7b1fa2;
+    .counter-label {
+      font-size: 16px;
+      color: #1976d2;
     }
     
-    .explanation ul {
-      margin: 10px 0;
-      padding-left: 20px;
-    }
-    
-    .explanation li {
-      margin: 5px 0;
+    .counter-box {
+      width: 60px;
+      height: 40px;
+      border: 2px solid #1976d2;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #f44336;
+      background: white;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CoalescingDemoComponent {
-  counter = 0;
+  data: any = null;
+  changeDetectionCount = 0;
 
-  constructor(private cdr: ChangeDetectorRef, private ngZone: NgZone) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone,
+    private http: HttpClient
+  ) {}
 
-  runSequence() {
-    this.counter = 0;
-    console.log('Starting microtask sequence in Zone + OnPush mode');
+  runMicrotask() {
+    console.log('🚀 Starting microtask (Promise.then)');
 
-    for (let i = 1; i <= 5; i++) {
-      Promise.resolve().then(() => {
-        this.counter = i;
-        console.log('microtask', i, 'counter =', this.counter);
-        this.cdr.detectChanges();
-      });
-    }
+    Promise.resolve().then(() => {
+      this.data = {
+        type: 'microtask',
+        value: 'Promise.then executed',
+        timestamp: new Date(),
+      };
+      console.log('✅ Microtask completed - data updated');
+    });
   }
 
-  get isZoneless(): boolean {
-    return !NgZone.isInAngularZone();
+  runMacrotask() {
+    console.log('🚀 Starting macrotask (HTTP request)');
+
+    this.http
+      .get('https://jsonplaceholder.typicode.com/todos/1')
+      .subscribe((res) => {
+        this.data = { type: 'macrotask', value: res, timestamp: new Date() };
+        console.log(
+          '✅ Macrotask completed - data received (UI NOT updating!):',
+          res
+        );
+      });
+  }
+
+  ngDoCheck() {
+    this.changeDetectionCount++;
+    this.cdr.detectChanges();
+    console.log('🔄 CoalescingDemoComponent change detection (Zone + OnPush)');
   }
 }
