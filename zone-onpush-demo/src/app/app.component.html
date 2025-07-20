@@ -6,6 +6,7 @@
 <div style="margin-bottom:16px;">
   <button (click)="select('forms')">Micro-interaction Forms Demo</button>
   <button (click)="select('coalesce')">Coalescing Microtasks Demo</button>
+  <button (click)="select('tree')">Component Tree Demo</button>
 </div>
 
 <div #appContainer class="block" *ngIf="view==='forms'">
@@ -23,5 +24,12 @@
   <div class="content-section">
     <p>AppComponent (Default)</p>
     <app-coalescing-demo></app-coalescing-demo>
+  </div>
+</div>
+
+<div #appContainer class="block" *ngIf="view==='tree'">
+  <div class="content-section">
+    <p>AppComponent (Default)</p>
+    <app-tree-demo></app-tree-demo>
   </div>
 </div>

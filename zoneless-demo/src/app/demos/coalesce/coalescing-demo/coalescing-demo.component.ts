@@ -125,7 +125,6 @@ export class CoalescingDemoComponent {
 
     this.http
       .get('https://jsonplaceholder.typicode.com/todos/1')
-      .pipe(delay(1000))
       .subscribe((res) => {
         this.data = { type: 'macrotask', value: res, timestamp: new Date() };
         console.log('✅ Macrotask completed - data received:', res);
