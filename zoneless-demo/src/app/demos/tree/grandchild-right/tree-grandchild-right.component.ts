@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
     <div #container class="tree-grandchild-right">
       <div class="node-box">
         <h4>Grandchild Right (Default)</h4>
-        <p>Deep nested</p>
+        <p>{{ label }}</p>
       </div>
     </div>
   `,
@@ -73,6 +73,7 @@ export class TreeGrandchildRightComponent implements DoCheck {
   private flashTimeout: any;
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
   @Input() requestData: any = null;
+  @Input() label: string = 'Deep nested';
 
   constructor(private ngZone: NgZone, private renderer: Renderer2) {}
 

@@ -38,6 +38,7 @@ import { TreeGrandchildRightComponent } from '../grandchild-right/tree-grandchil
           <div class="connection-line"></div>
           <app-tree-grandchild-right
             [requestData]="requestData"
+            [label]="'Deep nested Input'"
           ></app-tree-grandchild-right>
         </div>
       </div>
