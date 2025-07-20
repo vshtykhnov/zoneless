@@ -6,8 +6,11 @@ import {
   Renderer2,
   NgZone,
   ViewChild,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { delay } from 'rxjs';
 import { TreeGrandchildRightComponent } from '../grandchild-right/tree-grandchild-right.component';
 
 @Component({
@@ -19,8 +22,8 @@ import { TreeGrandchildRightComponent } from '../grandchild-right/tree-grandchil
       <div class="node-box">
         <h4>Child Right (OnPush)</h4>
         <div class="button-container">
-          <button (click)="triggerChange()" class="trigger-btn">
-            Trigger Change
+          <button (click)="sendRequest()" class="trigger-btn">
+            Send Request
           </button>
         </div>
       </div>
@@ -33,7 +36,9 @@ import { TreeGrandchildRightComponent } from '../grandchild-right/tree-grandchil
 
         <div class="branch-right">
           <div class="connection-line"></div>
-          <app-tree-grandchild-right></app-tree-grandchild-right>
+          <app-tree-grandchild-right
+            [requestData]="requestData"
+          ></app-tree-grandchild-right>
         </div>
       </div>
     </div>
@@ -114,11 +119,26 @@ import { TreeGrandchildRightComponent } from '../grandchild-right/tree-grandchil
 export class TreeChildRightComponent implements DoCheck {
   private flashTimeout: any;
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
+  requestData: any = null;
 
-  constructor(private ngZone: NgZone, private renderer: Renderer2) {}
+  constructor(
+    private ngZone: NgZone,
+    private renderer: Renderer2,
+    private cdr: ChangeDetectorRef,
+    private http: HttpClient
+  ) {}
 
-  triggerChange() {
-    console.log('🚀 Right branch button clicked - triggering change detection');
+  sendRequest() {
+    console.log('🚀 Right branch button clicked - sending HTTP request');
+
+    this.http
+      .get('https://jsonplaceholder.typicode.com/todos/1')
+      .pipe(delay(5000)) // Задержка 5 секунд
+      .subscribe((res) => {
+        this.requestData = res;
+        console.log('✅ HTTP request completed, calling detectChanges()');
+        this.cdr.detectChanges();
+      });
   }
 
   ngDoCheck() {

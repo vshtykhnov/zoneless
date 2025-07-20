@@ -6,6 +6,7 @@ import {
   Renderer2,
   NgZone,
   ViewChild,
+  Input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -50,6 +51,17 @@ import { CommonModule } from '@angular/common';
       color: #f57c00;
     }
     
+    .data-display {
+      margin-top: 5px;
+      padding: 5px;
+      background: #f5f5f5;
+      border-radius: 3px;
+      font-size: 8px;
+      color: #666;
+      max-width: 120px;
+      word-break: break-all;
+    }
+    
     .flash-outline { 
       box-shadow: 0 0 0 2px red; 
       transition: box-shadow 0.2s ease; 
@@ -60,6 +72,7 @@ import { CommonModule } from '@angular/common';
 export class TreeGrandchildRightComponent implements DoCheck {
   private flashTimeout: any;
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
+  @Input() requestData: any = null;
 
   constructor(private ngZone: NgZone, private renderer: Renderer2) {}
 

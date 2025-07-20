@@ -6,6 +6,7 @@ import {
   Renderer2,
   NgZone,
   ViewChild,
+  Input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -60,6 +61,7 @@ import { CommonModule } from '@angular/common';
 export class TreeGrandchildRightComponent implements DoCheck {
   private flashTimeout: any;
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
+  @Input() requestData: any = null;
 
   constructor(private ngZone: NgZone, private renderer: Renderer2) {}
 
