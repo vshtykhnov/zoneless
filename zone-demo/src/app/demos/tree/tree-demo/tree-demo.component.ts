@@ -10,9 +10,22 @@ import { TreeParentComponent } from '../parent/tree-parent.component';
     <div class="tree-demo">
       <div class="header-section">
         <h3>Tree Demo (Zone + Default)</h3>
-        <button (click)="isRefreshPhase = !isRefreshPhase" class="phase-toggle">
-          {{ isRefreshPhase ? 'Check Phase' : 'Refresh Phase' }}
-        </button>
+        <div class="phase-buttons">
+          <button
+            (click)="isRefreshPhase = false"
+            class="phase-btn check-phase"
+            [class.active]="!isRefreshPhase"
+          >
+            Check Phase
+          </button>
+          <button
+            (click)="isRefreshPhase = true"
+            class="phase-btn refresh-phase"
+            [class.active]="isRefreshPhase"
+          >
+            Refresh Phase
+          </button>
+        </div>
       </div>
       <div class="tree-container">
         <app-tree-parent [isRefreshPhase]="isRefreshPhase"></app-tree-parent>
@@ -40,19 +53,52 @@ import { TreeParentComponent } from '../parent/tree-parent.component';
       color: #2e7d32;
     }
     
-    .phase-toggle {
-      background: #2196f3;
-      color: white;
-      border: none;
+    .phase-buttons {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .phase-btn {
+      border: 2px solid;
       padding: 8px 16px;
-      border-radius: 4px;
+      border-radius: 6px;
       cursor: pointer;
       font-size: 12px;
       font-weight: bold;
+      transition: all 0.3s ease;
+      min-width: 100px;
     }
     
-    .phase-toggle:hover {
-      background: #1976d2;
+    .check-phase {
+      background: #e8f5e8;
+      border-color: #4caf50;
+      color: #2e7d32;
+    }
+    
+    .check-phase:hover {
+      background: #c8e6c9;
+    }
+    
+    .check-phase.active {
+      background: #4caf50;
+      color: white;
+      box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+    }
+    
+    .refresh-phase {
+      background: #fff3e0;
+      border-color: #ff9800;
+      color: #f57c00;
+    }
+    
+    .refresh-phase:hover {
+      background: #ffe0b2;
+    }
+    
+    .refresh-phase.active {
+      background: #ff9800;
+      color: white;
+      box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
     }
     
     .tree-container {
