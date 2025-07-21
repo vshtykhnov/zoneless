@@ -6,9 +6,11 @@ import {
   Renderer2,
   NgZone,
   ViewChild,
+  Input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeGrandchildLeftComponent } from '../grandchild-left/tree-grandchild-left.component';
+import { FlashService } from '../../../services/flash.service';
 
 @Component({
   selector: 'app-tree-child-left',
@@ -17,7 +19,7 @@ import { TreeGrandchildLeftComponent } from '../grandchild-left/tree-grandchild-
   template: `
     <div #container class="tree-child-left">
       <div class="node-box">
-        <h4>Child Left (Default)</h4>
+        <h4>Child Left (Default){{ isRefreshPhase ? flash() : '' }}</h4>
         <div class="button-container">
           <button (click)="triggerChange()" class="trigger-btn">
             Trigger Change
@@ -28,12 +30,16 @@ import { TreeGrandchildLeftComponent } from '../grandchild-left/tree-grandchild-
       <div class="tree-branches">
         <div class="branch-left">
           <div class="connection-line"></div>
-          <app-tree-grandchild-left></app-tree-grandchild-left>
+          <app-tree-grandchild-left
+            [isRefreshPhase]="isRefreshPhase"
+          ></app-tree-grandchild-left>
         </div>
 
         <div class="branch-right">
           <div class="connection-line"></div>
-          <app-tree-grandchild-left></app-tree-grandchild-left>
+          <app-tree-grandchild-left
+            [isRefreshPhase]="isRefreshPhase"
+          ></app-tree-grandchild-left>
         </div>
       </div>
     </div>
@@ -112,25 +118,26 @@ import { TreeGrandchildLeftComponent } from '../grandchild-left/tree-grandchild-
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class TreeChildLeftComponent implements DoCheck {
-  private flashTimeout: any;
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
+  @Input() isRefreshPhase = false;
 
-  constructor(private ngZone: NgZone, private renderer: Renderer2) {}
+  constructor(
+    private flashService: FlashService,
+    private renderer: Renderer2
+  ) {}
 
   triggerChange() {
     console.log('🚀 Left branch button clicked - triggering change detection');
   }
 
+  flash() {
+    return this.flashService.flash(this.container, this.renderer);
+  }
+
   ngDoCheck() {
     console.log('🔄 TreeChildLeftComponent change detection (Default)');
-    const el = this.container.nativeElement;
-    this.renderer.addClass(el, 'flash-outline');
-    this.ngZone.runOutsideAngular(() => {
-      clearTimeout(this.flashTimeout);
-      this.flashTimeout = setTimeout(
-        () => this.renderer.removeClass(el, 'flash-outline'),
-        200
-      );
-    });
+    if (!this.isRefreshPhase) {
+      this.flashService.flash(this.container, this.renderer);
+    }
   }
 }

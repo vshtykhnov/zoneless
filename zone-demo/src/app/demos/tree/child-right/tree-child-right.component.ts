@@ -7,11 +7,13 @@ import {
   NgZone,
   ViewChild,
   ChangeDetectorRef,
+  Input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { delay } from 'rxjs';
 import { TreeGrandchildRightComponent } from '../grandchild-right/tree-grandchild-right.component';
+import { FlashService } from '../../../services/flash.service';
 
 @Component({
   selector: 'app-tree-child-right',
@@ -20,7 +22,7 @@ import { TreeGrandchildRightComponent } from '../grandchild-right/tree-grandchil
   template: `
     <div #container class="tree-child-right">
       <div class="node-box">
-        <h4>Child Right (Default)</h4>
+        <h4>Child Right (Default){{ isRefreshPhase ? flash() : '' }}</h4>
         <div class="button-container">
           <button (click)="sendRequest()" class="trigger-btn">
             Send Request
@@ -31,7 +33,9 @@ import { TreeGrandchildRightComponent } from '../grandchild-right/tree-grandchil
       <div class="tree-branches">
         <div class="branch-left">
           <div class="connection-line"></div>
-          <app-tree-grandchild-right></app-tree-grandchild-right>
+          <app-tree-grandchild-right
+            [isRefreshPhase]="isRefreshPhase"
+          ></app-tree-grandchild-right>
         </div>
 
         <div class="branch-right">
@@ -39,6 +43,7 @@ import { TreeGrandchildRightComponent } from '../grandchild-right/tree-grandchil
           <app-tree-grandchild-right
             [requestData]="requestData"
             [label]="'Deep nested Input'"
+            [isRefreshPhase]="isRefreshPhase"
           ></app-tree-grandchild-right>
         </div>
       </div>
@@ -118,15 +123,16 @@ import { TreeGrandchildRightComponent } from '../grandchild-right/tree-grandchil
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class TreeChildRightComponent implements DoCheck {
-  private flashTimeout: any;
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
+  @Input() isRefreshPhase = false;
   requestData: any = null;
 
   constructor(
     private ngZone: NgZone,
     private renderer: Renderer2,
     private cdr: ChangeDetectorRef,
-    private http: HttpClient
+    private http: HttpClient,
+    private flashService: FlashService
   ) {}
 
   sendRequest() {
@@ -142,16 +148,14 @@ export class TreeChildRightComponent implements DoCheck {
       });
   }
 
+  flash() {
+    return this.flashService.flash(this.container, this.renderer);
+  }
+
   ngDoCheck() {
     console.log('🔄 TreeChildRightComponent change detection (Default)');
-    const el = this.container.nativeElement;
-    this.renderer.addClass(el, 'flash-outline');
-    this.ngZone.runOutsideAngular(() => {
-      clearTimeout(this.flashTimeout);
-      this.flashTimeout = setTimeout(
-        () => this.renderer.removeClass(el, 'flash-outline'),
-        200
-      );
-    });
+    if (!this.isRefreshPhase) {
+      this.flashService.flash(this.container, this.renderer);
+    }
   }
 }

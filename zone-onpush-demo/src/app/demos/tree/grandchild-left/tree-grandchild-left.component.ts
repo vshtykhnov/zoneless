@@ -6,10 +6,10 @@ import {
   Renderer2,
   NgZone,
   ViewChild,
+  Input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GreatGrandchildLeftComponent } from '../great-grandchild-left/great-grandchild-left.component';
-import { GreatGreatGrandchildLeftComponent } from '../great-great-grandchild-left/great-great-grandchild-left.component';
+import { FlashService } from '../../../services/flash.service';
 
 @Component({
   selector: 'app-tree-grandchild-left',
@@ -18,7 +18,7 @@ import { GreatGreatGrandchildLeftComponent } from '../great-great-grandchild-lef
   template: `
     <div #container class="tree-grandchild-left">
       <div class="node-box">
-        <h4>Grandchild Left (OnPush)</h4>
+        <h4>Grandchild Left (OnPush){{ isRefreshPhase ? flash() : '' }}</h4>
         <p>Deep nested</p>
       </div>
     </div>
@@ -60,21 +60,23 @@ import { GreatGreatGrandchildLeftComponent } from '../great-great-grandchild-lef
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TreeGrandchildLeftComponent implements DoCheck {
-  private flashTimeout: any;
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
+  @Input() isRefreshPhase = false;
 
-  constructor(private ngZone: NgZone, private renderer: Renderer2) {}
+  constructor(
+    private ngZone: NgZone,
+    private renderer: Renderer2,
+    private flashService: FlashService
+  ) {}
+
+  flash() {
+    return this.flashService.flash(this.container, this.renderer);
+  }
 
   ngDoCheck() {
     console.log('🔄 TreeGrandchildLeftComponent change detection (OnPush)');
-    const el = this.container.nativeElement;
-    this.renderer.addClass(el, 'flash-outline');
-    this.ngZone.runOutsideAngular(() => {
-      clearTimeout(this.flashTimeout);
-      this.flashTimeout = setTimeout(
-        () => this.renderer.removeClass(el, 'flash-outline'),
-        200
-      );
-    });
+    if (!this.isRefreshPhase) {
+      this.flashService.flash(this.container, this.renderer);
+    }
   }
 }

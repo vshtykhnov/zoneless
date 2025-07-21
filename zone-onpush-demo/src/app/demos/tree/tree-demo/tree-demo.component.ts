@@ -8,9 +8,14 @@ import { TreeParentComponent } from '../parent/tree-parent.component';
   imports: [CommonModule, TreeParentComponent],
   template: `
     <div class="tree-demo">
-      <h3>Tree Demo (Zone + OnPush)</h3>
+      <div class="header-section">
+        <h3>Tree Demo (Zone + OnPush)</h3>
+        <button (click)="isRefreshPhase = !isRefreshPhase" class="phase-toggle">
+          {{ isRefreshPhase ? 'Check Phase' : 'Refresh Phase' }}
+        </button>
+      </div>
       <div class="tree-container">
-        <app-tree-parent></app-tree-parent>
+        <app-tree-parent [isRefreshPhase]="isRefreshPhase"></app-tree-parent>
       </div>
     </div>
   `,
@@ -23,9 +28,31 @@ import { TreeParentComponent } from '../parent/tree-parent.component';
       border-radius: 8px;
     }
     
+    .header-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
     .tree-demo h3 {
-      margin-top: 0;
+      margin: 0;
       color: #1976d2;
+    }
+    
+    .phase-toggle {
+      background: #2196f3;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .phase-toggle:hover {
+      background: #1976d2;
     }
     
     .tree-container {
@@ -35,6 +62,8 @@ import { TreeParentComponent } from '../parent/tree-parent.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TreeDemoComponent implements DoCheck {
+  isRefreshPhase = false;
+
   ngDoCheck() {
     console.log('🔄 TreeDemoComponent change detection (Zone + OnPush)');
   }

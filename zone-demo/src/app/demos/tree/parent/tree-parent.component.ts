@@ -6,10 +6,12 @@ import {
   Renderer2,
   NgZone,
   ViewChild,
+  Input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeChildLeftComponent } from '../child-left/tree-child-left.component';
 import { TreeChildRightComponent } from '../child-right/tree-child-right.component';
+import { FlashService } from '../../../services/flash.service';
 
 @Component({
   selector: 'app-tree-parent',
@@ -19,19 +21,23 @@ import { TreeChildRightComponent } from '../child-right/tree-child-right.compone
     <div #container class="tree-parent">
       <div class="tree-node">
         <div class="node-box">
-          <h4>Parent (Default)</h4>
+          <h4>Parent (Default){{ isRefreshPhase ? flash() : '' }}</h4>
         </div>
       </div>
 
       <div class="tree-branches">
         <div class="branch-left">
           <div class="connection-line"></div>
-          <app-tree-child-left></app-tree-child-left>
+          <app-tree-child-left
+            [isRefreshPhase]="isRefreshPhase"
+          ></app-tree-child-left>
         </div>
 
         <div class="branch-right">
           <div class="connection-line"></div>
-          <app-tree-child-right></app-tree-child-right>
+          <app-tree-child-right
+            [isRefreshPhase]="isRefreshPhase"
+          ></app-tree-child-right>
         </div>
       </div>
     </div>
@@ -94,21 +100,26 @@ import { TreeChildRightComponent } from '../child-right/tree-child-right.compone
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class TreeParentComponent implements DoCheck {
-  private flashTimeout: any;
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
+  @Input() isRefreshPhase = false;
 
-  constructor(private ngZone: NgZone, private renderer: Renderer2) {}
+  constructor(
+    private flashService: FlashService,
+    private renderer: Renderer2
+  ) {}
+
+  flash() {
+    return this.flashService.flash(this.container, this.renderer);
+  }
 
   ngDoCheck() {
-    console.log('🔄 TreeParentComponent change detection (Default)');
-    const el = this.container.nativeElement;
-    this.renderer.addClass(el, 'flash-outline');
-    this.ngZone.runOutsideAngular(() => {
-      clearTimeout(this.flashTimeout);
-      this.flashTimeout = setTimeout(
-        () => this.renderer.removeClass(el, 'flash-outline'),
-        200
-      );
-    });
+    console.log(
+      '🔄 TreeParentComponent change detection (Default), isRefreshPhase:',
+      this.isRefreshPhase
+    );
+    if (!this.isRefreshPhase) {
+      console.log('🔦 TreeParentComponent calling flash()');
+      this.flashService.flash(this.container, this.renderer);
+    }
   }
 }

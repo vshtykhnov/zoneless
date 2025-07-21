@@ -9,6 +9,7 @@ import {
   Input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FlashService } from '../../../services/flash.service';
 
 @Component({
   selector: 'app-tree-grandchild-right',
@@ -17,7 +18,7 @@ import { CommonModule } from '@angular/common';
   template: `
     <div #container class="tree-grandchild-right">
       <div class="node-box">
-        <h4>Grandchild Right (Default)</h4>
+        <h4>Grandchild Right (Default){{ isRefreshPhase ? flash() : '' }}</h4>
         <p>{{ label }}</p>
       </div>
     </div>
@@ -59,23 +60,25 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class TreeGrandchildRightComponent implements DoCheck {
-  private flashTimeout: any;
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
   @Input() requestData: any = null;
   @Input() label: string = 'Deep nested';
+  @Input() isRefreshPhase = false;
 
-  constructor(private ngZone: NgZone, private renderer: Renderer2) {}
+  constructor(
+    private ngZone: NgZone,
+    private renderer: Renderer2,
+    private flashService: FlashService
+  ) {}
+
+  flash() {
+    return this.flashService.flash(this.container, this.renderer);
+  }
 
   ngDoCheck() {
     console.log('🔄 TreeGrandchildRightComponent change detection (Default)');
-    const el = this.container.nativeElement;
-    this.renderer.addClass(el, 'flash-outline');
-    this.ngZone.runOutsideAngular(() => {
-      clearTimeout(this.flashTimeout);
-      this.flashTimeout = setTimeout(
-        () => this.renderer.removeClass(el, 'flash-outline'),
-        200
-      );
-    });
+    if (!this.isRefreshPhase) {
+      this.flashService.flash(this.container, this.renderer);
+    }
   }
 }
