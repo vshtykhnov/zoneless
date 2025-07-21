@@ -9,6 +9,7 @@ import {
 import { ParentComponent } from './demos/forms/parent/parent.component';
 import { CoalescingDemoComponent } from './demos/coalesce/coalescing-demo/coalescing-demo.component';
 import { TreeDemoComponent } from './demos/tree/tree-demo/tree-demo.component';
+import { TreeOnPushDemoComponent } from './demos/tree/tree-onpush-demo/tree-onpush-demo.component';
 import { MouseTestComponent } from './demos/forms/mouse-test/mouse-test.component';
 import { TimerComponent } from './demos/forms/timer/timer.component';
 import { CommonModule } from '@angular/common';
@@ -21,6 +22,7 @@ import { CommonModule } from '@angular/common';
     ParentComponent,
     CoalescingDemoComponent,
     TreeDemoComponent,
+    TreeOnPushDemoComponent,
     MouseTestComponent,
     TimerComponent,
   ],
@@ -30,7 +32,7 @@ import { CommonModule } from '@angular/common';
 export class AppComponent implements DoCheck {
   title = 'zoneless-demo';
 
-  view: 'forms' | 'coalesce' | 'tree' = 'forms';
+  view: 'forms' | 'coalesce' | 'tree' | 'tree-onpush' = 'forms';
 
   private flashTimeout: any;
   @ViewChild('appContainer', { static: false })
@@ -38,7 +40,7 @@ export class AppComponent implements DoCheck {
 
   constructor(private ngZone: NgZone, private renderer: Renderer2) {}
 
-  select(view: 'forms' | 'coalesce' | 'tree') {
+  select(view: 'forms' | 'coalesce' | 'tree' | 'tree-onpush') {
     this.view = view;
   }
 
