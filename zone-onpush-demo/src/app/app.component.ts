@@ -31,6 +31,7 @@ export class AppComponent implements DoCheck {
   title = 'zone-onpush-demo';
 
   view: 'forms' | 'coalesce' | 'tree' = 'forms';
+  isRefreshPhase = false;
 
   private flashTimeout: any;
   @ViewChild('appContainer', { static: false })

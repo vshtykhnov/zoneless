@@ -6,14 +6,16 @@ import {
   NgZone,
   ViewChild,
   ChangeDetectionStrategy,
+  Input,
 } from '@angular/core';
+import { FlashService } from '../../../services/flash.service';
 
 @Component({
   selector: 'app-grandchild',
   standalone: true,
   template: `
     <div #container class="block">
-      <p>GrandchildComponent (OnPush)</p>
+      <p>GrandchildComponent (OnPush){{ isRefreshPhase ? flash() : '' }}</p>
     </div>
   `,
   styles: `
@@ -23,22 +25,23 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GrandchildComponent implements DoCheck {
-  private flashTimeout: any;
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
+  @Input() isRefreshPhase = false;
 
-  constructor(private ngZone: NgZone, private renderer: Renderer2) {}
+  constructor(
+    private ngZone: NgZone,
+    private renderer: Renderer2,
+    private flashService: FlashService
+  ) {}
+
+  flash() {
+    return this.flashService.flash(this.container, this.renderer);
+  }
 
   ngDoCheck() {
-    console.log('GrandchildComponent change detection (Zone + OnPush)');
-    const el = this.container.nativeElement;
-    this.renderer.addClass(el, 'flash-outline');
-
-    this.ngZone.runOutsideAngular(() => {
-      clearTimeout(this.flashTimeout);
-      this.flashTimeout = setTimeout(
-        () => this.renderer.removeClass(el, 'flash-outline'),
-        200
-      );
-    });
+    console.log('🔄 GrandchildComponent change detection (Zone + OnPush)');
+    if (!this.isRefreshPhase) {
+      this.flashService.flash(this.container, this.renderer);
+    }
   }
 }

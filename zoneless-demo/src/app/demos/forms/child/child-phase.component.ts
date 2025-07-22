@@ -8,28 +8,37 @@ import {
   ChangeDetectionStrategy,
   Input,
 } from '@angular/core';
-import { GrandchildComponent } from '../grandchild/grandchild.component';
+import { GrandchildPhaseComponent } from '../grandchild/grandchild-phase.component';
 import { CheckoutFormComponent } from '../checkout-form/checkout-form.component';
 import { FlashService } from '../../../services/flash.service';
 
 @Component({
-  selector: 'app-child',
+  selector: 'app-child-phase',
   standalone: true,
-  imports: [GrandchildComponent, CheckoutFormComponent],
+  imports: [GrandchildPhaseComponent, CheckoutFormComponent],
   template: `
     <div #container class="block" style="border: 2px dashed lightblue;">
       <p>ChildComponent (OnPush){{ isRefreshPhase ? flash() : '' }}</p>
       <app-checkout-form [isRefreshPhase]="isRefreshPhase"></app-checkout-form>
-      <app-grandchild [isRefreshPhase]="isRefreshPhase"></app-grandchild>
+      <app-grandchild-phase
+        [isRefreshPhase]="isRefreshPhase"
+      ></app-grandchild-phase>
     </div>
   `,
   styles: `
-    .block { padding: 24px; margin: 8px; }
-    .flash-outline { box-shadow: 0 0 0 2px red; transition: box-shadow 0.2s ease; }
+    .block { 
+      padding: 24px; 
+      margin: 8px; 
+      background: #e3f2fd;
+    }
+    .flash-outline { 
+      box-shadow: 0 0 0 3px red; 
+      transition: box-shadow 0.2s ease; 
+    }
    `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChildComponent implements DoCheck {
+export class ChildPhaseComponent implements DoCheck {
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
   @Input() isRefreshPhase = false;
 
@@ -44,7 +53,7 @@ export class ChildComponent implements DoCheck {
   }
 
   ngDoCheck() {
-    console.log('🔄 ChildComponent change detection (Zoneless)');
+    console.log('🔄 ChildPhaseComponent change detection (Zoneless)');
     if (!this.isRefreshPhase) {
       this.flashService.flash(this.container, this.renderer);
     }

@@ -7,14 +7,17 @@ import {
   ViewChild,
   OnDestroy,
   ChangeDetectorRef,
+  Input,
+  ChangeDetectionStrategy,
 } from '@angular/core';
+import { FlashService } from '../../../services/flash.service';
 
 @Component({
   selector: 'app-timer',
   standalone: true,
   template: `
     <div #container class="timer-block">
-      <p>TimerComponent (OnPush)</p>
+      <p>TimerComponent (OnPush){{ isRefreshPhase ? flash() : '' }}</p>
       <div>Timer: {{ timerCount }}</div>
       <button
         (click)="toggleTimer()"
@@ -53,10 +56,11 @@ import {
       border-color: #ff5722;
     }
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimerComponent implements DoCheck, OnDestroy {
-  private flashTimeout: any;
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
+  @Input() isRefreshPhase = false;
 
   timerCount = 0;
   isTimerActive = false;
@@ -65,7 +69,8 @@ export class TimerComponent implements DoCheck, OnDestroy {
   constructor(
     private ngZone: NgZone,
     private renderer: Renderer2,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private flashService: FlashService
   ) {}
 
   toggleTimer() {
@@ -96,17 +101,15 @@ export class TimerComponent implements DoCheck, OnDestroy {
     }
   }
 
+  flash() {
+    return this.flashService.flash(this.container, this.renderer);
+  }
+
   ngDoCheck() {
-    console.log('TimerComponent change detection (Zone + OnPush)');
-    const el = this.container.nativeElement;
-    this.renderer.addClass(el, 'flash-outline');
-    this.ngZone.runOutsideAngular(() => {
-      clearTimeout(this.flashTimeout);
-      this.flashTimeout = setTimeout(
-        () => this.renderer.removeClass(el, 'flash-outline'),
-        200
-      );
-    });
+    console.log('🔄 TimerComponent change detection (Zone + OnPush)');
+    if (!this.isRefreshPhase) {
+      this.flashService.flash(this.container, this.renderer);
+    }
   }
 
   ngOnDestroy() {

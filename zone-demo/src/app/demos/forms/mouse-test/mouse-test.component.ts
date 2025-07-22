@@ -1,10 +1,19 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  Input,
+  DoCheck,
+  Renderer2,
+} from '@angular/core';
+import { FlashService } from '../../../services/flash.service';
 
 @Component({
   selector: 'app-mouse-test',
   standalone: true,
   template: `
-    <div class="mouse-tests">
+    <div #container class="mouse-tests">
       <div #mouseTestArea class="mouse-test-zone">
         <h3>Mouse Move Test (Zone Mode)</h3>
         <p>Move your mouse over this area</p>
@@ -19,6 +28,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
         <p><strong>Template events also update automatically!</strong></p>
       </div>
     </div>
+    {{ isRefreshPhase ? flash() : '' }}
   `,
   styles: `
     .mouse-tests {
@@ -48,12 +58,30 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
     }
   `,
 })
-export class MouseTestComponent implements OnInit {
+export class MouseTestComponent implements OnInit, DoCheck {
+  @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
   @ViewChild('mouseTestArea', { static: true })
   mouseTestArea!: ElementRef<HTMLElement>;
+  @Input() isRefreshPhase = false;
 
   mouseMoveCount = 0;
   templateMouseMoveCount = 0;
+
+  constructor(
+    private renderer: Renderer2,
+    private flashService: FlashService
+  ) {}
+
+  flash() {
+    return this.flashService.flash(this.container, this.renderer);
+  }
+
+  ngDoCheck() {
+    console.log('🔄 MouseTestComponent change detection (Zone)');
+    if (!this.isRefreshPhase) {
+      this.flashService.flash(this.container, this.renderer);
+    }
+  }
 
   ngOnInit() {
     this.mouseTestArea.nativeElement.addEventListener('mousemove', () => {

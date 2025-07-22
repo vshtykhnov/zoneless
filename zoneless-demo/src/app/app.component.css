@@ -91,3 +91,61 @@ button:active {
 .mouse-test-zoneless-template:hover {
   background-color: #ffeaa7;
 }
+
+/* Phase controls styles */
+.phase-controls {
+  margin-bottom: 16px;
+  padding: 16px;
+  background: #f8f9fa;
+  border: 2px solid #ff9800;
+  border-radius: 8px;
+}
+
+.phase-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.phase-btn {
+  border: 2px solid;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+
+.check-phase {
+  background: #fff3e0;
+  border-color: #ff9800;
+  color: #f57c00;
+}
+
+.check-phase:hover {
+  background: #ffe0b2;
+}
+
+.check-phase.active {
+  background: #ff9800;
+  color: white;
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+}
+
+.refresh-phase {
+  background: #e8f5e8;
+  border-color: #4caf50;
+  color: #2e7d32;
+}
+
+.refresh-phase:hover {
+  background: #c8e6c9;
+}
+
+.refresh-phase.active {
+  background: #4caf50;
+  color: white;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}

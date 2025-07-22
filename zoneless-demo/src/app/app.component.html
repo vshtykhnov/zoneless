@@ -4,22 +4,35 @@
 </div>
 
 <div style="margin-bottom:16px;">
-  <button (click)="select('forms')">Micro-interaction Forms Demo</button>
+  <button (click)="select('forms')">Forms Demo (Check/Patching Phase)</button>
   <button (click)="select('coalesce')">Coalescing Microtasks Demo</button>
   <button (click)="select('tree')">Component Tree Demo (Default)</button>
   <button (click)="select('tree-onpush')">Component Tree Demo (OnPush)</button>
 </div>
 
+<div class="phase-controls" *ngIf="view==='forms'">
+  <div class="phase-buttons">
+    <button (click)="isRefreshPhase = false" class="phase-btn check-phase" [class.active]="!isRefreshPhase">
+      Check Phase
+    </button>
+    <button (click)="isRefreshPhase = true" class="phase-btn refresh-phase" [class.active]="isRefreshPhase">
+      Patching Phase
+    </button>
+  </div>
+</div>
+
 <div #appContainer class="block" *ngIf="view==='forms'">
   <div class="content-section">
     <p>AppComponent (Default)</p>
-    <app-parent></app-parent>
+    <app-parent [isRefreshPhase]="isRefreshPhase"></app-parent>
   </div>
   <div class="test-section">
-    <app-mouse-test></app-mouse-test>
-    <app-timer></app-timer>
+    <app-mouse-test [isRefreshPhase]="isRefreshPhase"></app-mouse-test>
+    <app-timer [isRefreshPhase]="isRefreshPhase"></app-timer>
   </div>
 </div>
+
+
 
 <div #appContainer class="block" *ngIf="view==='coalesce'">
   <div class="content-section">

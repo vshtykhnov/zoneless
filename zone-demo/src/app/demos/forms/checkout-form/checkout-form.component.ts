@@ -5,22 +5,26 @@ import {
   Renderer2,
   NgZone,
   ViewChild,
+  Input,
 } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormFieldComponent } from '../form-field/form-field.component';
+import { FlashService } from '../../../services/flash.service';
 
 @Component({
   selector: 'app-checkout-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormFieldComponent],
   template: `
-    <form #container="" [formGroup]="form" class="checkout-form">
+    <form #container [formGroup]="form" class="checkout-form">
       <app-form-field
         *ngFor="let field of fields"
         [field]="field"
+        [isRefreshPhase]="isRefreshPhase"
       ></app-form-field>
     </form>
+    <div style="display: none;">{{ isRefreshPhase ? flash() : '' }}</div>
   `,
   styles: [
     `
@@ -51,6 +55,9 @@ import { FormFieldComponent } from '../form-field/form-field.component';
   ],
 })
 export class CheckoutFormComponent implements DoCheck {
+  @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
+  @Input() isRefreshPhase = false;
+
   fields = [
     'name',
     'email',
@@ -77,27 +84,22 @@ export class CheckoutFormComponent implements DoCheck {
     notes: [''],
   });
 
-  private flashTimeout: any;
-  @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
-
   constructor(
     private fb: FormBuilder,
     private el: ElementRef,
     private renderer: Renderer2,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private flashService: FlashService
   ) {}
 
+  flash() {
+    return this.flashService.flash(this.container, this.renderer);
+  }
+
   ngDoCheck() {
-    console.log('CheckoutFormComponent change detection');
-
-    const el = this.container.nativeElement;
-    this.renderer.addClass(el, 'flash-outline');
-
-    this.ngZone.runOutsideAngular(() => {
-      clearTimeout(this.flashTimeout);
-      this.flashTimeout = setTimeout(() => {
-        this.renderer.removeClass(el, 'flash-outline');
-      }, 200);
-    });
+    console.log('🔄 CheckoutFormComponent change detection (Zone)');
+    if (!this.isRefreshPhase) {
+      this.flashService.flash(this.container, this.renderer);
+    }
   }
 }

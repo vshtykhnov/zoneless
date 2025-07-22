@@ -5,13 +5,17 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Input,
+  DoCheck,
+  Renderer2,
 } from '@angular/core';
+import { FlashService } from '../../../services/flash.service';
 
 @Component({
   selector: 'app-mouse-test',
   standalone: true,
   template: `
-    <div class="mouse-tests">
+    <div #container class="mouse-tests">
       <div #mouseTestArea class="mouse-test-zone-onpush">
         <h3>Mouse Move Test (Zone + OnPush)</h3>
         <p>Move your mouse over this area</p>
@@ -31,6 +35,7 @@ import {
         <p><strong>Template events trigger global change detection!</strong></p>
       </div>
     </div>
+    {{ isRefreshPhase ? flash() : '' }}
   `,
   styles: `
     .mouse-tests {
@@ -61,14 +66,31 @@ import {
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MouseTestComponent implements OnInit {
+export class MouseTestComponent implements OnInit, DoCheck {
+  @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
   @ViewChild('mouseTestArea', { static: true })
   mouseTestArea!: ElementRef<HTMLElement>;
+  @Input() isRefreshPhase = false;
 
   mouseMoveCount = 0;
   templateMouseMoveCount = 0;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private renderer: Renderer2,
+    private flashService: FlashService
+  ) {}
+
+  flash() {
+    return this.flashService.flash(this.container, this.renderer);
+  }
+
+  ngDoCheck() {
+    console.log('🔄 MouseTestComponent change detection (Zone + OnPush)');
+    if (!this.isRefreshPhase) {
+      this.flashService.flash(this.container, this.renderer);
+    }
+  }
 
   ngOnInit() {
     this.mouseTestArea.nativeElement.addEventListener('mousemove', () => {

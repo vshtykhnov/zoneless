@@ -5,6 +5,7 @@ import {
   ElementRef,
   Renderer2,
   ChangeDetectionStrategy,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -12,22 +13,26 @@ import {
   ControlContainer,
   FormGroupDirective,
 } from '@angular/forms';
+import { FlashService } from '../../../services/flash.service';
 
 @Component({
   selector: 'app-form-field',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
-    <div class="field-wrapper">
+    <div #container class="field-wrapper">
       <label [for]="field">{{ field | titlecase }}</label>
       <input [id]="field" [formControlName]="field" />
     </div>
+    {{ isRefreshPhase ? flash() : '' }}
   `,
   styles: [
     `
       .field-wrapper {
         display: flex;
         flex-direction: column;
+        padding: 4px;
+        border-radius: 4px;
       }
       label {
         font-size: 0.8rem;
@@ -37,8 +42,8 @@ import {
         padding: 4px 8px;
         font-size: 0.9rem;
       }
-      :host(.flash-outline) {
-        box-shadow: 0 0 0 2px red;
+      .flash-outline {
+        box-shadow: 0 0 0 3px red;
         transition: box-shadow 0.2s ease;
       }
     `,
@@ -49,24 +54,28 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormFieldComponent implements DoCheck {
+  @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
   @Input() field!: string;
-
-  private flashTimeout: any;
+  @Input() isRefreshPhase = false;
 
   constructor(
     private el: ElementRef<HTMLElement>,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private flashService: FlashService
   ) {}
 
-  ngDoCheck() {
-    // Highlight host element
-    const host = this.el.nativeElement;
-    this.renderer.addClass(host, 'flash-outline');
+  flash() {
+    console.log('🔄 FormFieldComponent flash() called:', this.field);
+    return this.flashService.flash(this.container, this.renderer);
+  }
 
-    clearTimeout(this.flashTimeout);
-    this.flashTimeout = setTimeout(
-      () => this.renderer.removeClass(host, 'flash-outline'),
-      200
+  ngDoCheck() {
+    console.log(
+      '🔄 FormFieldComponent change detection (Zoneless):',
+      this.field
     );
+    if (!this.isRefreshPhase) {
+      this.flashService.flash(this.container, this.renderer);
+    }
   }
 }

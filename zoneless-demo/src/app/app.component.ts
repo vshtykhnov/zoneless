@@ -33,6 +33,7 @@ export class AppComponent implements DoCheck {
   title = 'zoneless-demo';
 
   view: 'forms' | 'coalesce' | 'tree' | 'tree-onpush' = 'forms';
+  isRefreshPhase = false;
 
   private flashTimeout: any;
   @ViewChild('appContainer', { static: false })
