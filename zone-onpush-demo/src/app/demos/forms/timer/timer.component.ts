@@ -26,6 +26,9 @@ import { FlashService } from '../../../services/flash.service';
       >
         {{ isTimerActive ? 'Stop Timer' : 'Start Timer' }}
       </button>
+      <button (click)="throwException()" class="exception-btn">
+        Throw Exception
+      </button>
     </div>
   `,
   styles: `
@@ -54,6 +57,21 @@ import { FlashService } from '../../../services/flash.service';
       background: #ff5722;
       color: white;
       border-color: #ff5722;
+    }
+    .exception-btn {
+      margin-top: 8px;
+      margin-left: 8px;
+      padding: 6px 12px;
+      border: 1px solid #f44336;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: #f44336;
+    }
+    .exception-btn:hover {
+      background: #f44336;
+      color: white;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -103,6 +121,14 @@ export class TimerComponent implements DoCheck, OnDestroy {
 
   flash() {
     return this.flashService.flash(this.container, this.renderer);
+  }
+
+  throwException() {
+    setTimeout(() => {
+      throw new Error(
+        'TimerComponent: Exception thrown from setTimeout (Zone + OnPush)'
+      );
+    }, 0);
   }
 
   ngDoCheck() {
