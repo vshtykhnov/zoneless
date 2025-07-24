@@ -7,6 +7,8 @@
   <button (click)="select('forms')">Micro-interaction Forms Demo</button>
   <button (click)="select('coalesce')">Coalescing Microtasks Demo</button>
   <button (click)="select('tree')">Component Tree Demo</button>
+  <button (click)="select('async-signals')">Cards Demo</button>
+  <button (click)="select('tree-onpush')">Async Pipe & Signals Demo</button>
 </div>
 
 <div class="phase-controls" *ngIf="view==='forms'">
@@ -42,5 +44,19 @@
   <div class="content-section">
     <p>AppComponent (Default)</p>
     <app-tree-demo></app-tree-demo>
+  </div>
+</div>
+
+<div #appContainer class="block" *ngIf="view==='async-signals'">
+  <div class="content-section">
+    <p>AppComponent (Default)</p>
+    <app-async-signals-demo></app-async-signals-demo>
+  </div>
+</div>
+
+<div #appContainer class="block" *ngIf="view==='tree-onpush'">
+  <div class="content-section">
+    <p>AppComponent (Default)</p>
+    <app-tree-onpush-demo-new></app-tree-onpush-demo-new>
   </div>
 </div>

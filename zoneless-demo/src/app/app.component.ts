@@ -10,8 +10,11 @@ import { ParentComponent } from './demos/forms/parent/parent.component';
 import { CoalescingDemoComponent } from './demos/coalesce/coalescing-demo/coalescing-demo.component';
 import { TreeDemoComponent } from './demos/tree/tree-demo/tree-demo.component';
 import { TreeOnPushDemoComponent } from './demos/tree/tree-onpush-demo/tree-onpush-demo.component';
+import { TreeOnPushDemoComponent as TreeOnPushDemoComponentNew } from './demos/tree-onpush-demo/tree-onpush-demo.component';
 import { MouseTestComponent } from './demos/forms/mouse-test/mouse-test.component';
 import { TimerComponent } from './demos/forms/timer/timer.component';
+import { AsyncSignalsDemoComponent } from './demos/async-signals-demo/async-signals-demo.component';
+
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -23,8 +26,10 @@ import { CommonModule } from '@angular/common';
     CoalescingDemoComponent,
     TreeDemoComponent,
     TreeOnPushDemoComponent,
+    TreeOnPushDemoComponentNew,
     MouseTestComponent,
     TimerComponent,
+    AsyncSignalsDemoComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -32,7 +37,13 @@ import { CommonModule } from '@angular/common';
 export class AppComponent implements DoCheck {
   title = 'zoneless-demo';
 
-  view: 'forms' | 'coalesce' | 'tree' | 'tree-onpush' = 'forms';
+  view:
+    | 'forms'
+    | 'coalesce'
+    | 'tree'
+    | 'tree-onpush'
+    | 'tree-onpush-new'
+    | 'async-signals' = 'forms';
   isRefreshPhase = false;
 
   private flashTimeout: any;
@@ -41,7 +52,15 @@ export class AppComponent implements DoCheck {
 
   constructor(private ngZone: NgZone, private renderer: Renderer2) {}
 
-  select(view: 'forms' | 'coalesce' | 'tree' | 'tree-onpush') {
+  select(
+    view:
+      | 'forms'
+      | 'coalesce'
+      | 'tree'
+      | 'tree-onpush'
+      | 'tree-onpush-new'
+      | 'async-signals'
+  ) {
     this.view = view;
   }
 

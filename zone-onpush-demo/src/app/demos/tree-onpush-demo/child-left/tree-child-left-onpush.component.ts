@@ -6,8 +6,9 @@ import {
   Renderer2,
   NgZone,
   ViewChild,
-  ChangeDetectorRef,
   Input,
+  ChangeDetectorRef,
+  AfterViewInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeGrandchildLeftOnPushComponent } from '../grandchild-left/tree-grandchild-left-onpush.component';
@@ -18,25 +19,15 @@ import { FlashService } from '../../../services/flash.service';
   standalone: true,
   imports: [CommonModule, TreeGrandchildLeftOnPushComponent],
   template: `
-    <div #container class="tree-child-left">
-      <div class="node-box">
-        <h4>Child Left (OnPush){{ isRefreshPhase ? flash() : '' }}</h4>
-        <div class="button-container">
-          <button (click)="triggerChange()" class="trigger-btn">
-            Trigger Change
-          </button>
+    <div #container class="tree-child">
+      <div class="tree-node">
+        <div class="node-box">
+          <h4>Child Left (OnPush) - {{ value }}</h4>
         </div>
       </div>
 
       <div class="tree-branches">
-        <div class="branch-left">
-          <div class="connection-line"></div>
-          <app-tree-grandchild-left-onpush
-            [isRefreshPhase]="isRefreshPhase"
-          ></app-tree-grandchild-left-onpush>
-        </div>
-
-        <div class="branch-right">
+        <div class="branch-center">
           <div class="connection-line"></div>
           <app-tree-grandchild-left-onpush
             [isRefreshPhase]="isRefreshPhase"
@@ -46,68 +37,49 @@ import { FlashService } from '../../../services/flash.service';
     </div>
   `,
   styles: `
-    .tree-child-left {
+    .tree-child {
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 15px;
     }
     
+    .tree-node {
+      margin-bottom: 15px;
+    }
+    
     .node-box {
-      border: 3px solid #9c27b0;
-      background: #f3e5f5;
-      padding: 15px 20px;
+      border: 3px solid #4caf50;
+      background: #e8f5e8;
+      padding: 12px 20px;
       border-radius: 8px;
       text-align: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
     }
     
     .node-box h4 {
-      margin: 0 0 10px 0;
-      color: #7b1fa2;
+      margin: 0 0 8px 0;
+      color: #2e7d32;
       font-size: 14px;
       font-weight: bold;
     }
     
-    .button-container {
-      margin-top: 10px;
-    }
-    
-    .trigger-btn {
-      background: #ff5722;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 11px;
-      font-weight: bold;
-    }
-    
-    .trigger-btn:hover {
-      background: #e64a19;
-    }
-    
     .tree-branches {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       width: 100%;
-      max-width: 300px;
-      gap: 20px;
     }
     
-    .branch-left, .branch-right {
-      flex: 1;
+    .branch-center {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
     
     .connection-line {
-      width: 2px;
-      height: 20px;
-      background: #9c27b0;
+      width: 3px;
+      height: 25px;
+      background: #4caf50;
       margin-bottom: 8px;
     }
     
@@ -118,23 +90,31 @@ import { FlashService } from '../../../services/flash.service';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TreeChildLeftOnPushComponent implements DoCheck {
+export class TreeChildLeftOnPushComponent implements DoCheck, AfterViewInit {
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
   @Input() isRefreshPhase = false;
+
+  // Regular variable for value
+  public value = Math.floor(Math.random() * 1000);
 
   constructor(
     private ngZone: NgZone,
     private renderer: Renderer2,
-    private cdr: ChangeDetectorRef,
-    private flashService: FlashService
+    private flashService: FlashService,
+    private cdr: ChangeDetectorRef
   ) {}
-
-  triggerChange() {
-    console.log('🚀 Left branch button clicked - triggering change detection');
-  }
 
   flash() {
     return this.flashService.flash(this.container, this.renderer);
+  }
+
+  ngAfterViewInit() {
+    // Auto-increment value every second OUTSIDE zone
+    this.ngZone.runOutsideAngular(() => {
+      setInterval(() => {
+        this.value++;
+      }, 1000);
+    });
   }
 
   ngDoCheck() {
