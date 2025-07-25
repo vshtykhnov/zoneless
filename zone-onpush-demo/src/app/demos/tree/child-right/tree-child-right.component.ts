@@ -41,8 +41,6 @@ import { FlashService } from '../../../services/flash.service';
         <div class="branch-right">
           <div class="connection-line"></div>
           <app-tree-grandchild-right
-            [requestData]="requestData"
-            [label]="'Deep nested Input'"
             [isRefreshPhase]="isRefreshPhase"
           ></app-tree-grandchild-right>
         </div>

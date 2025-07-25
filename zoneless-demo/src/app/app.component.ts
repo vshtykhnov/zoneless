@@ -34,7 +34,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements DoCheck {
+export class AppComponent {
   title = 'zoneless-demo';
 
   view:
@@ -46,11 +46,10 @@ export class AppComponent implements DoCheck {
     | 'async-signals' = 'forms';
   isRefreshPhase = false;
 
-  private flashTimeout: any;
   @ViewChild('appContainer', { static: false })
   appContainer!: ElementRef<HTMLElement>;
 
-  constructor(private ngZone: NgZone, private renderer: Renderer2) {}
+  constructor() {}
 
   select(
     view:
@@ -62,20 +61,5 @@ export class AppComponent implements DoCheck {
       | 'async-signals'
   ) {
     this.view = view;
-  }
-
-  ngDoCheck() {
-    console.log('AppComponent change detection (Zoneless)');
-    if (this.appContainer?.nativeElement) {
-      const el = this.appContainer.nativeElement;
-      this.renderer.addClass(el, 'flash-outline');
-      this.ngZone.runOutsideAngular(() => {
-        clearTimeout(this.flashTimeout);
-        this.flashTimeout = setTimeout(
-          () => this.renderer.removeClass(el, 'flash-outline'),
-          200
-        );
-      });
-    }
   }
 }

@@ -6,21 +6,28 @@ import {
   Renderer2,
   NgZone,
   ViewChild,
-  Input,
   AfterViewInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TreeGreatGreatGrandchildLeftOnPushComponent } from '../great-great-grandchild-left/tree-great-great-grandchild-left-onpush.component';
 import { FlashService } from '../../../services/flash.service';
 
 @Component({
   selector: 'app-tree-great-grandchild-left-onpush',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TreeGreatGreatGrandchildLeftOnPushComponent],
   template: `
     <div #container class="tree-great-grandchild">
       <div class="tree-node">
         <div class="node-box">
-          <h4>Great Grandchild Left (OnPush) - {{ value }}{{ flash() }}</h4>
+          <h4>Great Grandchild Left (Default) {{ flash() }}</h4>
+        </div>
+      </div>
+
+      <div class="tree-branches">
+        <div class="branch-center">
+          <div class="connection-line"></div>
+          <app-tree-great-great-grandchild-left-onpush></app-tree-great-great-grandchild-left-onpush>
         </div>
       </div>
     </div>
@@ -53,36 +60,41 @@ import { FlashService } from '../../../services/flash.service';
       font-weight: bold;
     }
     
+    .tree-branches {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+    
+    .branch-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .connection-line {
+      width: 2px;
+      height: 15px;
+      background: #66bb6a;
+      margin-bottom: 4px;
+    }
+    
     .flash-outline { 
       box-shadow: 0 0 0 3px red; 
       transition: box-shadow 0.2s ease; 
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
-export class TreeGreatGrandchildLeftOnPushComponent implements AfterViewInit {
+export class TreeGreatGrandchildLeftOnPushComponent {
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
-  @Input() isRefreshPhase = false;
-
-  // Regular variable for value
-  public value = Math.floor(Math.random() * 1000);
 
   constructor(
-    private ngZone: NgZone,
     private renderer: Renderer2,
     private flashService: FlashService
   ) {}
 
   flash() {
     return this.flashService.flash(this.container, this.renderer);
-  }
-
-  ngAfterViewInit() {
-    // Auto-increment value every second OUTSIDE zone
-    this.ngZone.runOutsideAngular(() => {
-      setInterval(() => {
-        this.value++;
-      }, 1000);
-    });
   }
 }

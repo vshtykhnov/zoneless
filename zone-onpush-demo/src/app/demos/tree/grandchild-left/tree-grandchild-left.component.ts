@@ -64,7 +64,6 @@ export class TreeGrandchildLeftComponent implements DoCheck {
   @Input() isRefreshPhase = false;
 
   constructor(
-    private ngZone: NgZone,
     private renderer: Renderer2,
     private flashService: FlashService
   ) {}

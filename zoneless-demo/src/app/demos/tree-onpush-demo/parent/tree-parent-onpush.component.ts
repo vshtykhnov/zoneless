@@ -9,24 +9,33 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeChildLeftOnPushComponent } from '../child-left/tree-child-left-onpush.component';
+import { TreeChildRightOnPushComponent } from '../child-right/tree-child-right-onpush.component';
 import { FlashService } from '../../../services/flash.service';
 
 @Component({
   selector: 'app-tree-parent-onpush',
   standalone: true,
-  imports: [CommonModule, TreeChildLeftOnPushComponent],
+  imports: [
+    CommonModule,
+    TreeChildLeftOnPushComponent,
+    TreeChildRightOnPushComponent,
+  ],
   template: `
     <div #container class="tree-parent">
       <div class="tree-node">
         <div class="node-box">
-          <h4>Parent (OnPush)</h4>
+          <h4>Parent (Default) {{ flash() }}</h4>
         </div>
       </div>
 
       <div class="tree-branches">
-        <div class="branch-center">
+        <div class="branch-left">
           <div class="connection-line"></div>
           <app-tree-child-left-onpush></app-tree-child-left-onpush>
+        </div>
+        <div class="branch-right">
+          <div class="connection-line"></div>
+          <app-tree-child-right-onpush></app-tree-child-right-onpush>
         </div>
       </div>
     </div>
@@ -61,15 +70,18 @@ import { FlashService } from '../../../services/flash.service';
     
          .tree-branches {
        display: flex;
-       justify-content: center;
+       justify-content: space-between;
        width: 100%;
-       max-width: 600px;
+       max-width: 800px;
+       gap: 40px;
      }
      
-     .branch-center {
+     .branch-left,
+     .branch-right {
        display: flex;
        flex-direction: column;
        align-items: center;
+       flex: 1;
      }
     
     .connection-line {
@@ -86,7 +98,7 @@ import { FlashService } from '../../../services/flash.service';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TreeParentOnPushComponent implements DoCheck {
+export class TreeParentOnPushComponent {
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
 
   constructor(
@@ -97,10 +109,5 @@ export class TreeParentOnPushComponent implements DoCheck {
 
   flash() {
     return this.flashService.flash(this.container, this.renderer);
-  }
-
-  ngDoCheck() {
-    console.log('🔄 TreeParentOnPushComponent change detection (OnPush)');
-    this.flashService.flash(this.container, this.renderer);
   }
 }

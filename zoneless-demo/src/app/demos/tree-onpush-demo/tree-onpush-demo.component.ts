@@ -14,7 +14,7 @@ import { TreeParentOnPushComponent } from './parent/tree-parent-onpush.component
   template: `
     <div class="tree-demo">
       <div class="header-section">
-        <h3>Async Pipe & Signals Demo (Zoneless)</h3>
+        <h3>Async Pipe & Signals Demo (Zoneless) - OnPush</h3>
       </div>
       <div class="tree-container">
         <app-tree-parent-onpush></app-tree-parent-onpush>

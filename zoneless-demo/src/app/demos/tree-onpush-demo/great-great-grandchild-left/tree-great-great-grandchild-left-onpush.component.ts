@@ -6,76 +6,68 @@ import {
   Renderer2,
   NgZone,
   ViewChild,
-  Input,
+  AfterViewInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlashService } from '../../../services/flash.service';
 
 @Component({
-  selector: 'app-tree-grandchild-right',
+  selector: 'app-tree-great-great-grandchild-left-onpush',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div #container class="tree-grandchild-right">
-      <div class="node-box">
-        <h4>Grandchild Right (OnPush){{ isRefreshPhase ? flash() : '' }}</h4>
+    <div #container class="tree-great-great-grandchild">
+      <div class="tree-node">
+        <div class="node-box">
+          <h4>Great Great Grandchild Left (OnPush) {{ flash() }}</h4>
+        </div>
       </div>
     </div>
   `,
   styles: `
-    .tree-grandchild-right {
+    .tree-great-great-grandchild {
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 6px;
+    }
+    
+    .tree-node {
+      margin-bottom: 6px;
     }
     
     .node-box {
-      border: 2px solid #90caf9;
-      background: #f3e5f5;
-      padding: 10px 15px;
-      border-radius: 6px;
+      border: 3px solid #4caf50;
+      background: #e8f5e8;
+      padding: 6px 10px;
+      border-radius: 8px;
       text-align: center;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     
     .node-box h4 {
-      margin: 0 0 5px 0;
-      color: #7b1fa2;
-      font-size: 12px;
+      margin: 0;
+      color: #2e7d32;
+      font-size: 9px;
       font-weight: bold;
     }
     
-    .node-box p {
-      margin: 0;
-      font-size: 10px;
-      color: #6a1b9a;
-    }
-    
     .flash-outline { 
-      box-shadow: 0 0 0 2px red; 
+      box-shadow: 0 0 0 3px red; 
       transition: box-shadow 0.2s ease; 
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TreeGrandchildRightComponent implements DoCheck {
+export class TreeGreatGreatGrandchildLeftOnPushComponent {
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
-  @Input() isRefreshPhase = false;
 
   constructor(
-    private ngZone: NgZone,
     private renderer: Renderer2,
     private flashService: FlashService
   ) {}
 
   flash() {
     return this.flashService.flash(this.container, this.renderer);
-  }
-
-  ngDoCheck() {
-    console.log('🔄 TreeGrandchildRightComponent change detection (OnPush)');
-    if (!this.isRefreshPhase) {
-      this.flashService.flash(this.container, this.renderer);
-    }
   }
 }

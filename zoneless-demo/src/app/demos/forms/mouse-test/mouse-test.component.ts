@@ -20,7 +20,6 @@ import { FlashService } from '../../../services/flash.service';
         <h3>Mouse Move Test (Zoneless Mode)</h3>
         <p>Move your mouse over this area</p>
         <p>Movement counter: {{ mouseMoveCount }}</p>
-        <p><strong>In Zoneless mode, detectChanges() is needed!</strong></p>
       </div>
 
       <div

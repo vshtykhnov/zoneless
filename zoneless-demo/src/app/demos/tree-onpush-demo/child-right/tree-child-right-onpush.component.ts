@@ -10,25 +10,17 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TreeGrandchildLeftOnPushComponent } from '../grandchild-left/tree-grandchild-left-onpush.component';
 import { FlashService } from '../../../services/flash.service';
 
 @Component({
-  selector: 'app-tree-child-left-onpush',
+  selector: 'app-tree-child-right-onpush',
   standalone: true,
-  imports: [CommonModule, TreeGrandchildLeftOnPushComponent],
+  imports: [CommonModule],
   template: `
     <div #container class="tree-child">
       <div class="tree-node">
         <div class="node-box">
-          <h4>Child Left (Default) {{ flash() }}</h4>
-        </div>
-      </div>
-
-      <div class="tree-branches">
-        <div class="branch-center">
-          <div class="connection-line"></div>
-          <app-tree-grandchild-left-onpush></app-tree-grandchild-left-onpush>
+          <h4>Child Right (Default) {{ flash() }}</h4>
         </div>
       </div>
     </div>
@@ -46,40 +38,19 @@ import { FlashService } from '../../../services/flash.service';
     }
     
     .node-box {
-      border: 3px solid #4caf50;
-      background: #e8f5e8;
+      border: 3px solid #9c27b0;
+      background: #f3e5f5;
       padding: 12px 20px;
       border-radius: 8px;
       text-align: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     
-         .node-box h4 {
-       margin: 0 0 8px 0;
-       color: #2e7d32;
-       font-size: 14px;
-       font-weight: bold;
-     }
-     
-     
-    
-                   .tree-branches {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-      }
-      
-      .branch-center {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-    
-    .connection-line {
-      width: 3px;
-      height: 25px;
-      background: #4caf50;
-      margin-bottom: 8px;
+    .node-box h4 {
+      margin: 0 0 8px 0;
+      color: #7b1fa2;
+      font-size: 14px;
+      font-weight: bold;
     }
     
     .flash-outline { 
@@ -89,7 +60,7 @@ import { FlashService } from '../../../services/flash.service';
   `,
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class TreeChildLeftOnPushComponent {
+export class TreeChildRightOnPushComponent {
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
 
   constructor(

@@ -21,7 +21,7 @@ import { FlashService } from '../../../services/flash.service';
     <div #container class="tree-child">
       <div class="tree-node">
         <div class="node-box">
-          <h4>Child Left (OnPush) - {{ value }} {{ flash() }}</h4>
+          <h4>Child Left (Default) {{ flash() }}</h4>
         </div>
       </div>
 
@@ -87,29 +87,17 @@ import { FlashService } from '../../../services/flash.service';
       transition: box-shadow 0.2s ease; 
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
-export class TreeChildLeftOnPushComponent implements AfterViewInit {
+export class TreeChildLeftOnPushComponent {
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
 
-  // Regular variable for value
-  public value = Math.floor(Math.random() * 1000);
-
   constructor(
-    private ngZone: NgZone,
     private renderer: Renderer2,
-    private flashService: FlashService,
-    private cdr: ChangeDetectorRef
+    private flashService: FlashService
   ) {}
 
   flash() {
     return this.flashService.flash(this.container, this.renderer);
-  }
-
-  ngAfterViewInit() {
-    // Auto-increment value every second
-    setInterval(() => {
-      this.value++;
-    }, 1000);
   }
 }

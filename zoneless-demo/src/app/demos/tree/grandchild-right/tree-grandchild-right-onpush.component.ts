@@ -61,12 +61,9 @@ import { FlashService } from '../../../services/flash.service';
 })
 export class TreeGrandchildRightOnPushComponent implements DoCheck {
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
-  @Input() requestData: any = null;
-  @Input() label: string = 'Deep nested';
   @Input() isRefreshPhase = false;
 
   constructor(
-    private ngZone: NgZone,
     private renderer: Renderer2,
     private flashService: FlashService
   ) {}

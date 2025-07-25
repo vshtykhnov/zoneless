@@ -29,7 +29,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements DoCheck {
+export class AppComponent {
   title = 'zone-demo';
 
   view: 'forms' | 'coalesce' | 'tree' | 'async-signals' = 'forms';
@@ -39,24 +39,7 @@ export class AppComponent implements DoCheck {
   @ViewChild('appContainer', { static: false })
   appContainer!: ElementRef<HTMLElement>;
 
-  constructor(private ngZone: NgZone, private renderer: Renderer2) {}
-
   select(view: 'forms' | 'coalesce' | 'tree' | 'async-signals') {
     this.view = view;
-  }
-
-  ngDoCheck() {
-    console.log('AppComponent change detection (Zone)');
-    if (this.appContainer?.nativeElement) {
-      const el = this.appContainer.nativeElement;
-      this.renderer.addClass(el, 'flash-outline');
-      this.ngZone.runOutsideAngular(() => {
-        clearTimeout(this.flashTimeout);
-        this.flashTimeout = setTimeout(
-          () => this.renderer.removeClass(el, 'flash-outline'),
-          200
-        );
-      });
-    }
   }
 }

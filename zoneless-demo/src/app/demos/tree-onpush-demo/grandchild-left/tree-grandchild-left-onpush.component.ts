@@ -13,6 +13,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { TreeGreatGrandchildLeftOnPushComponent } from '../great-grandchild-left/tree-great-grandchild-left-onpush.component';
 import { FlashService } from '../../../services/flash.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-tree-grandchild-left-onpush',
@@ -22,7 +23,7 @@ import { FlashService } from '../../../services/flash.service';
     <div #container class="tree-grandchild">
       <div class="tree-node">
         <div class="node-box">
-          <h4>Grandchild Left (OnPush) - {{ value() }} {{ flash() }}</h4>
+          <h4>Grandchild Left (Default) - {{ value() }} {{ flash() }}</h4>
           <button #updateSignalBtn class="update-btn">Update Signal</button>
         </div>
       </div>
@@ -56,7 +57,7 @@ import { FlashService } from '../../../services/flash.service';
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     
-               .node-box h4 {
+    .node-box h4 {
         margin: 0 0 8px 0;
         color: #558b2f;
         font-size: 12px;
@@ -81,7 +82,7 @@ import { FlashService } from '../../../services/flash.service';
      
      
      
-           .tree-branches {
+      .tree-branches {
         display: flex;
         justify-content: center;
         width: 100%;
@@ -105,7 +106,7 @@ import { FlashService } from '../../../services/flash.service';
       transition: box-shadow 0.2s ease; 
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class TreeGrandchildLeftOnPushComponent implements AfterViewInit {
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
@@ -117,10 +118,8 @@ export class TreeGrandchildLeftOnPushComponent implements AfterViewInit {
   value = this.valueSignal.asReadonly();
 
   constructor(
-    private ngZone: NgZone,
     private renderer: Renderer2,
-    private flashService: FlashService,
-    private cdr: ChangeDetectorRef
+    private flashService: FlashService
   ) {}
 
   flash() {
