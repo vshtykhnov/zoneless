@@ -23,7 +23,7 @@ import { TreeParentOnPushComponent } from '../parent/tree-parent-onpush.componen
             class="phase-btn refresh-phase"
             [class.active]="isRefreshPhase"
           >
-            Refresh Phase
+            Patching Phase
           </button>
         </div>
       </div>
