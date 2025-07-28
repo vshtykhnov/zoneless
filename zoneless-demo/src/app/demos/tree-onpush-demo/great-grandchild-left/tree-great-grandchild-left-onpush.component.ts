@@ -7,6 +7,7 @@ import {
   NgZone,
   ViewChild,
   AfterViewInit,
+  Input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeGreatGreatGrandchildLeftOnPushComponent } from '../great-great-grandchild-left/tree-great-great-grandchild-left-onpush.component';
@@ -20,7 +21,7 @@ import { FlashService } from '../../../services/flash.service';
     <div #container class="tree-great-grandchild">
       <div class="tree-node">
         <div class="node-box">
-          <h4>Great Grandchild Left (Default) {{ flash() }}</h4>
+          <h4>Great Grandchild Left (Default) - {{ test }} {{ flash() }}</h4>
         </div>
       </div>
 
@@ -88,6 +89,8 @@ import { FlashService } from '../../../services/flash.service';
 })
 export class TreeGreatGrandchildLeftOnPushComponent {
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
+
+  @Input() test = 12;
 
   constructor(
     private renderer: Renderer2,

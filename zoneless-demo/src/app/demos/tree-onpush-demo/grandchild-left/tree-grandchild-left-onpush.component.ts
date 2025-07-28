@@ -9,6 +9,7 @@ import {
   signal,
   ChangeDetectorRef,
   AfterViewInit,
+  ApplicationRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeGreatGrandchildLeftOnPushComponent } from '../great-grandchild-left/tree-great-grandchild-left-onpush.component';
@@ -119,7 +120,9 @@ export class TreeGrandchildLeftOnPushComponent implements AfterViewInit {
 
   constructor(
     private renderer: Renderer2,
-    private flashService: FlashService
+    private flashService: FlashService,
+    private cdr: ChangeDetectorRef,
+    private appRef: ApplicationRef
   ) {}
 
   flash() {
@@ -135,6 +138,7 @@ export class TreeGrandchildLeftOnPushComponent implements AfterViewInit {
   updateSignal() {
     console.log('🔄 TreeGrandchildLeftOnPushComponent: Update Signal clicked');
     const newValue = Math.floor(Math.random() * 1000);
+    this.valueSignal.set(newValue);
     this.valueSignal.set(newValue);
   }
 }

@@ -136,5 +136,6 @@ export class TreeGrandchildLeftOnPushComponent implements AfterViewInit {
     console.log('🔄 TreeGrandchildLeftOnPushComponent: Update Signal clicked');
     const newValue = Math.floor(Math.random() * 1000);
     this.valueSignal.set(newValue);
+    this.valueSignal.set(newValue);
   }
 }
