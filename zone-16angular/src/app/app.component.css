@@ -1,0 +1,88 @@
+/* Project header styles */
+.project-header {
+  background: #4caf50;
+  color: white;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+}
+
+.project-header h1 {
+  margin: 0 0 8px 0;
+}
+
+.project-header p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Button styles */
+button {
+  margin-right: 8px;
+  padding: 8px 16px;
+  border: 1px solid #4caf50;
+  background: white;
+  color: #4caf50;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background: #4caf50;
+  color: white;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+/* Block styles */
+.block {
+  border: 2px solid #4caf50;
+  padding: 24px;
+  margin: 8px;
+  border-radius: 8px;
+  background: #f8f9fa;
+}
+
+.block {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Flash outline for change detection visualization */
+.flash-outline { 
+  box-shadow: 0 0 0 2px red; 
+  transition: box-shadow 0.2s ease; 
+}
+
+.content-section {
+  flex: 1;
+}
+
+/* Tree demo styles */
+.tree-demo {
+  border: 2px solid #ff9800;
+  padding: 20px;
+  margin: 16px 0;
+  background: #fff3e0;
+  border-radius: 8px;
+}
+
+.header-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.tree-demo h3 {
+  margin: 0;
+  color: #f57c00;
+  font-size: 18px;
+}
+
+.tree-container {
+  margin-top: 15px;
+} 

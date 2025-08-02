@@ -1,0 +1,87 @@
+.parent-onpush {
+  background-color: #ffebee;
+  padding: 15px;
+  border-radius: 8px;
+  border: 2px solid #f44336;
+  margin-bottom: 15px;
+}
+
+.parent-onpush h2 {
+  color: #d32f2f;
+  margin-top: 0;
+}
+
+.parent-onpush button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.parent-onpush button:hover {
+  background-color: #d32f2f;
+}
+
+.child-container {
+  margin-top: 15px;
+  padding-left: 20px;
+  border-left: 3px solid #f44336;
+} 
+
+.tree-parent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.tree-node {
+  margin-bottom: 20px;
+}
+
+.node-box {
+  border: 3px solid #f57c00;
+  background: #ffe0b2;
+  padding: 15px 25px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.node-box h4 {
+  margin: 0;
+  color: #e65100;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.tree-branches {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 800px;
+  gap: 40px;
+}
+
+.branch-left,
+.branch-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.connection-line {
+  width: 3px;
+  height: 30px;
+  background: #f57c00;
+  margin-bottom: 10px;
+}
+
+.flash-outline { 
+  box-shadow: 0 0 0 3px red; 
+  transition: box-shadow 0.2s ease; 
+} 

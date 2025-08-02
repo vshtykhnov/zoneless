@@ -1,0 +1,15 @@
+<div #container class="tree-grandchild">
+  <div class="tree-node">
+    <div class="node-box">
+      <h4>Grandchild Left (Default) - {{ value() }} {{ flash() }}</h4>
+      <button #updateSignalBtn class="update-btn">Update Signal</button>
+    </div>
+  </div>
+
+  <div class="tree-branches">
+    <div class="branch-center">
+      <div class="connection-line"></div>
+      <app-great-grandchild-left></app-great-grandchild-left>
+    </div>
+  </div>
+</div>

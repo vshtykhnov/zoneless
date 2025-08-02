@@ -1,0 +1,50 @@
+.tree-great-grandchild {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+}
+
+.tree-node {
+  margin-bottom: 8px;
+}
+
+.node-box {
+  border: 3px solid #4caf50;
+  background: #e8f5e8;
+  padding: 8px 12px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.node-box h4 {
+  margin: 0 0 6px 0;
+  color: #2e7d32;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.tree-branches {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.branch-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.connection-line {
+  width: 2px;
+  height: 15px;
+  background: #4caf50;
+  margin-bottom: 5px;
+}
+
+.flash-outline { 
+  box-shadow: 0 0 0 3px red; 
+  transition: box-shadow 0.2s ease; 
+} 

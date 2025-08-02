@@ -1,0 +1,47 @@
+.tree-grandchild {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+.tree-node {
+  margin-bottom: 10px;
+}
+
+.node-box {
+  border: 3px solid #8bc34a;
+  background: #f1f8e9;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.node-box h4 {
+  margin: 0 0 8px 0;
+  color: #558b2f;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.update-btn {
+  padding: 3px 6px;
+  border: none;
+  border-radius: 3px;
+  background: #8bc34a;
+  color: white;
+  cursor: pointer;
+  font-size: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.update-btn:hover {
+  background: #689f38;
+}
+
+.flash-outline { 
+  box-shadow: 0 0 0 3px red; 
+  transition: box-shadow 0.2s ease; 
+} 

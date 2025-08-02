@@ -1,0 +1,22 @@
+<div class="project-header">
+  <h1>{{ title }}</h1>
+  <p>Demonstrates Angular 16 with OnPush and Signals</p>
+</div>
+
+<div style="margin-bottom:16px;">
+  <button (click)="view = 'async-signals'">Async Pipe & Signals Demo</button>
+</div>
+
+<div #appContainer class="block" *ngIf="view==='async-signals'">
+  <div class="content-section">
+    <p>AppComponent</p>
+    <div class="tree-demo">
+      <div class="header-section">
+        <h3>Async Pipe & Signals Demo (Zone + Default) - OnPush</h3>
+      </div>
+      <div class="tree-container">
+        <app-parent-onpush></app-parent-onpush>
+      </div>
+    </div>
+  </div>
+</div>

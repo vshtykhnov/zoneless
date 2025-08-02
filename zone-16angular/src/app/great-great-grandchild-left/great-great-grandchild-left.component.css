@@ -1,0 +1,31 @@
+.tree-great-great-grandchild {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px;
+}
+
+.tree-node {
+  margin-bottom: 6px;
+}
+
+.node-box {
+  border: 3px solid #ff9800;
+  background: #fff3e0;
+  padding: 6px 10px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.node-box h4 {
+  margin: 0;
+  color: #f57c00;
+  font-size: 9px;
+  font-weight: bold;
+}
+
+.flash-outline { 
+  box-shadow: 0 0 0 3px red; 
+  transition: box-shadow 0.2s ease; 
+} 
