@@ -96,7 +96,7 @@ import { FlashService } from '../../../services/flash.service';
       transition: box-shadow 0.2s ease; 
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class TreeParentOnPushComponent {
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;

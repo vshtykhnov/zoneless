@@ -1,5 +1,5 @@
 <div class="project-header">
-  <h1>Zone + Default Demo</h1>
+  <h1>Zone + Default Demo v17</h1>
   <p>Demonstrates Zone.js with Default change detection strategy</p>
 </div>
 
@@ -7,7 +7,8 @@
   <button (click)="select('forms')">Micro-interaction Forms Demo</button>
   <button (click)="select('coalesce')">Coalescing Microtasks Demo</button>
   <button (click)="select('tree')">Component Tree Demo</button>
-  <button (click)="select('async-signals')">Cards Demo</button>
+  <button (click)="select('cards')">Cards Demo</button>
+  <button (click)="select('tree-onpush')">Async Pipe & Signals Demo</button>
 </div>
 
 <div class="phase-controls" *ngIf="view==='forms'">
@@ -46,9 +47,16 @@
   </div>
 </div>
 
-<div #appContainer class="block" *ngIf="view==='async-signals'">
+<div #appContainer class="block" *ngIf="view==='cards'">
   <div class="content-section">
     <p>AppComponent</p>
-    <app-async-signals-demo></app-async-signals-demo>
+    <app-cards-demo></app-cards-demo>
+  </div>
+</div>
+
+<div #appContainer class="block" *ngIf="view==='tree-onpush'">
+  <div class="content-section">
+    <p>AppComponent</p>
+    <app-tree-onpush-demo-new></app-tree-onpush-demo-new>
   </div>
 </div>

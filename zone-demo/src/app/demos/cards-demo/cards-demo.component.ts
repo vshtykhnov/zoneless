@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import { CardComponent } from './card.component';
 
 @Component({
-  selector: 'app-async-signals-demo',
+  selector: 'app-cards-demo',
   standalone: true,
   imports: [CommonModule, CardComponent],
   template: `

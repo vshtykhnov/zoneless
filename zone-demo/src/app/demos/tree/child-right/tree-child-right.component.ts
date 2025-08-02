@@ -8,6 +8,7 @@ import {
   ViewChild,
   ChangeDetectorRef,
   Input,
+  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -140,11 +141,9 @@ export class TreeChildRightComponent implements DoCheck {
 
     this.http
       .get('https://jsonplaceholder.typicode.com/todos/1')
-      .pipe(delay(5000)) // Задержка 5 секунд
+      .pipe(delay(5000))
       .subscribe((res) => {
         this.requestData = res;
-        console.log('✅ HTTP request completed, calling detectChanges()');
-        this.cdr.detectChanges();
       });
   }
 
