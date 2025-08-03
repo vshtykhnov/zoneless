@@ -122,7 +122,8 @@ export class TreeGrandchildLeftOnPushComponent implements AfterViewInit {
     private renderer: Renderer2,
     private flashService: FlashService,
     private cdr: ChangeDetectorRef,
-    private appRef: ApplicationRef
+    private appRef: ApplicationRef,
+    private ngZone: NgZone
   ) {}
 
   flash() {

@@ -6,6 +6,7 @@ import {
   signal,
   AfterViewInit,
   NgZone,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { FlashService } from '../services/flash.service';
 
@@ -26,7 +27,8 @@ export class GrandchildLeftComponent implements AfterViewInit {
   constructor(
     private renderer: Renderer2,
     private flashService: FlashService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef
   ) {}
 
   flash() {
@@ -38,6 +40,7 @@ export class GrandchildLeftComponent implements AfterViewInit {
       this.updateSignalBtn.nativeElement.addEventListener('click', () => {
         this.ngZone.run(() => {
           this.updateSignal();
+          console.log('🔄 GrandchildLeftComponent: Update Signal clicked');
         });
       });
     });

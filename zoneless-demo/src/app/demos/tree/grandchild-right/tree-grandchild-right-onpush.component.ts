@@ -21,7 +21,6 @@ import { FlashService } from '../../../services/flash.service';
       <div class="tree-node">
         <div class="node-box">
           <h4>Grandchild Right (OnPush) {{ isRefreshPhase ? flash() : '' }}</h4>
-          {{ data }}
         </div>
       </div>
     </div>
@@ -71,12 +70,7 @@ export class TreeGrandchildRightOnPushComponent implements DoCheck {
     private renderer: Renderer2,
     private flashService: FlashService,
     private cdr: ChangeDetectorRef
-  ) {
-    setInterval(() => {
-      console.log('🔄 TreeDemoComponent runOutsideAngular');
-      this.data = this.data + 1;
-    }, 1000);
-  }
+  ) {}
 
   flash() {
     return this.flashService.flash(this.container, this.renderer);
