@@ -5,6 +5,8 @@ import {
   Renderer2,
   ViewChild,
   AfterViewInit,
+  signal,
+  WritableSignal,
 } from '@angular/core';
 import { FlashService } from '../../services/flash.service';
 import { CommonModule } from '@angular/common';
@@ -53,18 +55,18 @@ export class AsyncSignalsDemoComponent implements AfterViewInit {
   // Traditional properties instead of signals
   cards: Array<{
     id: number;
-    value: number;
-    timestamp: Date;
-    updateCount: number;
+    value: WritableSignal<number>;
+    timestamp: WritableSignal<Date>;
+    updateCount: WritableSignal<number>;
   }> = [];
 
   constructor(private renderer: Renderer2, private flashService: FlashService) {
     // Initialize 100 cards
     this.cards = Array.from({ length: 100 }, (_, index) => ({
       id: index + 1,
-      value: Math.floor(Math.random() * 1000),
-      timestamp: new Date(),
-      updateCount: 0,
+      value: signal(Math.floor(Math.random() * 1000)),
+      timestamp: signal(new Date()),
+      updateCount: signal(0),
     }));
   }
 
@@ -85,13 +87,9 @@ export class AsyncSignalsDemoComponent implements AfterViewInit {
   updateCard(index: number) {
     const card = this.cards[index];
 
-    // Update the clicked card
-    this.cards[index] = {
-      ...card,
-      value: Math.floor(Math.random() * 1000),
-      timestamp: new Date(),
-      updateCount: card.updateCount + 1,
-    };
+    card.value.set(Math.floor(Math.random() * 1000));
+    card.timestamp.set(new Date());
+    card.updateCount.update(c => c + 1);
 
     console.log(`Updated card ${card.id} (Zone + Default)`);
   }

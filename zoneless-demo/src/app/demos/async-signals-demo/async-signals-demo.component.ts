@@ -4,7 +4,7 @@ import {
   ElementRef,
   Renderer2,
   ViewChild,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, WritableSignal,
   signal,
   AfterViewInit,
 } from '@angular/core';
@@ -54,9 +54,9 @@ export class AsyncSignalsDemoComponent implements AfterViewInit {
   private cardsSignal = signal<
     Array<{
       id: number;
-      value: number;
-      timestamp: Date;
-      updateCount: number;
+      value: WritableSignal<number>;
+      timestamp: WritableSignal<Date>;
+      updateCount: WritableSignal<number>;
     }>
   >([]);
 
@@ -66,9 +66,9 @@ export class AsyncSignalsDemoComponent implements AfterViewInit {
     // Initialize 100 cards
     const initialCards = Array.from({ length: 100 }, (_, index) => ({
       id: index + 1,
-      value: Math.floor(Math.random() * 1000),
-      timestamp: new Date(),
-      updateCount: 0,
+      value: signal(Math.floor(Math.random() * 1000)),
+      timestamp: signal(new Date()),
+      updateCount: signal(0),
     }));
 
     this.cardsSignal.set(initialCards);
@@ -89,19 +89,12 @@ export class AsyncSignalsDemoComponent implements AfterViewInit {
   }
 
   updateCard(index: number) {
-    const cards = this.cards();
-    const card = cards[index];
+    const card = this.cards()[index];
 
-    // Create a new array with only the updated card changed
-    const newCards = [...cards];
-    newCards[index] = {
-      ...card,
-      value: Math.floor(Math.random() * 1000),
-      timestamp: new Date(),
-      updateCount: card.updateCount + 1,
-    };
+    card.value.set(Math.floor(Math.random() * 1000));
+    card.timestamp.set(new Date());
+    card.updateCount.update(c => c + 1);
 
-    this.cardsSignal.set(newCards);
     console.log(`Updated card ${card.id} (Zoneless)`);
   }
 

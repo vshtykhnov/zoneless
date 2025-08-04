@@ -1,6 +1,5 @@
 import {
   Component,
-  DoCheck,
   ElementRef,
   Renderer2,
   ViewChild,
@@ -19,7 +18,7 @@ import { CardComponent } from './card.component';
   imports: [CommonModule, CardComponent],
   template: `
     <div #container class="async-signals-demo">
-      <h2>Cards Demo (Zone + OnPush)</h2>
+      <h2>Cards Demo (Zone + Default)</h2>
       <p>100 cards with signals - only one card updates at a time</p>
 
       <div #cardsGrid class="cards-grid">
@@ -31,7 +30,7 @@ import { CardComponent } from './card.component';
       </div>
     </div>
   `,
-  styles: `
+  styles: [`
     .async-signals-demo {
       padding: 20px;
       background: #f5f5f5;
@@ -44,14 +43,13 @@ import { CardComponent } from './card.component';
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 12px;
     }
-  `,
+  `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AsyncSignalsDemoComponent implements DoCheck, AfterViewInit {
+export class AsyncSignalsDemoComponent implements AfterViewInit {
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
   @ViewChild('cardsGrid', { static: true }) cardsGrid!: ElementRef<HTMLElement>;
 
-  // Signals
   private cardsSignal = signal<
     Array<{
       id: number;
@@ -64,7 +62,6 @@ export class AsyncSignalsDemoComponent implements DoCheck, AfterViewInit {
   cards = this.cardsSignal.asReadonly();
 
   constructor(private renderer: Renderer2, private flashService: FlashService) {
-    // Initialize 100 cards
     const initialCards = Array.from({ length: 100 }, (_, index) => ({
       id: index + 1,
       value: signal(Math.floor(Math.random() * 1000)),
@@ -81,9 +78,9 @@ export class AsyncSignalsDemoComponent implements DoCheck, AfterViewInit {
       const cardElement = target.closest('app-card');
 
       if (cardElement) {
-        const index = cardElement.getAttribute('data-index');
-        if (index !== null) {
-          this.updateCard(parseInt(index));
+        const indexAttr = cardElement.getAttribute('data-index');
+        if (indexAttr !== null) {
+          this.updateCard(parseInt(indexAttr, 10));
         }
       }
     });
@@ -91,12 +88,11 @@ export class AsyncSignalsDemoComponent implements DoCheck, AfterViewInit {
 
   updateCard(index: number) {
     const card = this.cards()[index];
-
     card.value.set(Math.floor(Math.random() * 1000));
     card.timestamp.set(new Date());
     card.updateCount.update(c => c + 1);
 
-    console.log(`Updated card ${card.id} (Zone + OnPush)`);
+    console.log(`Updated card ${card.id} (Zone + Default)`);
   }
 
   trackByCardId(index: number, card: any): number {
@@ -105,11 +101,5 @@ export class AsyncSignalsDemoComponent implements DoCheck, AfterViewInit {
 
   flash() {
     return this.flashService.flash(this.container, this.renderer);
-  }
-
-  ngDoCheck() {
-    console.log(
-      '🔄 AsyncSignalsDemoComponent change detection (Zone + OnPush)'
-    );
   }
 }

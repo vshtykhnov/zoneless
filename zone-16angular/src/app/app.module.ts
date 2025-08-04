@@ -8,6 +8,7 @@ import { ChildRightComponent } from './child-right/child-right.component';
 import { GrandchildLeftComponent } from './grandchild-left/grandchild-left.component';
 import { GreatGrandchildLeftComponent } from './great-grandchild-left/great-grandchild-left.component';
 import { GreatGreatGrandchildLeftComponent } from './great-great-grandchild-left/great-great-grandchild-left.component';
+import { AsyncSignalsDemoComponent } from './demos/async-signals-demo/async-signals-demo.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { GreatGreatGrandchildLeftComponent } from './great-great-grandchild-left
     GreatGrandchildLeftComponent,
     GreatGreatGrandchildLeftComponent,
   ],
-  imports: [BrowserModule],
+  imports: [BrowserModule, AsyncSignalsDemoComponent],
   providers: [],
   bootstrap: [AppComponent],
 })

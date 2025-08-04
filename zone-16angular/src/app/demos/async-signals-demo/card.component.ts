@@ -19,9 +19,7 @@ import { CommonModule } from '@angular/common';
     <div #cardElement class="card">
       <div class="card-header">
         <span class="card-id">Card {{ card.id }}{{ flash() }}</span>
-        <span class="card-timestamp">{{
-          card.timestamp() | date : 'HH:mm:ss.SSS'
-        }}</span>
+        <span class="card-timestamp">{{ card.timestamp() | date : 'HH:mm:ss.SSS' }}</span>
       </div>
       <div class="card-content">
         <div class="card-value">{{ card.value() }}</div>
@@ -29,7 +27,7 @@ import { CommonModule } from '@angular/common';
       </div>
     </div>
   `,
-  styles: `
+  styles: [`
     .card {
       background: white;
       border: 2px solid #e0e0e0;
@@ -53,11 +51,11 @@ import { CommonModule } from '@angular/common';
     }
 
     @keyframes flashOutline {
-      0% { 
+      0% {
         border-color: #ff5722;
         box-shadow: 0 0 15px rgba(255, 87, 34, 0.6);
       }
-      100% { 
+      100% {
         border-color: #e0e0e0;
         box-shadow: none;
       }
@@ -95,7 +93,7 @@ import { CommonModule } from '@angular/common';
       font-size: 12px;
       color: #666;
     }
-  `,
+  `],
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class CardComponent implements DoCheck {
@@ -119,6 +117,6 @@ export class CardComponent implements DoCheck {
   }
 
   ngDoCheck() {
-    console.log(`🔄 Card ${this.card.id} change detection (Zone + OnPush)`);
+    console.log(`🔄 Card ${this.card.id} change detection (Zone + Default)`);
   }
 }

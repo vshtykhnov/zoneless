@@ -5,7 +5,7 @@ import {
   Renderer2,
   ViewChild,
   DoCheck,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, Signal,
 } from '@angular/core';
 import { FlashService } from '../../services/flash.service';
 import { CommonModule } from '@angular/common';
@@ -19,12 +19,12 @@ import { CommonModule } from '@angular/common';
       <div class="card-header">
         <span class="card-id">Card {{ card.id }}{{ flash() }}</span>
         <span class="card-timestamp">{{
-          card.timestamp | date : 'HH:mm:ss.SSS'
+          card.timestamp() | date : 'HH:mm:ss.SSS'
         }}</span>
       </div>
       <div class="card-content">
-        <div class="card-value">{{ card.value }}</div>
-        <div class="card-updates">Updates: {{ card.updateCount }}</div>
+        <div class="card-value">{{ card.value() }}</div>
+        <div class="card-updates">Updates: {{ card.updateCount() }}</div>
       </div>
     </div>
   `,
@@ -95,14 +95,14 @@ import { CommonModule } from '@angular/common';
       color: #666;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class CardComponent implements DoCheck {
   @Input() card!: {
     id: number;
-    value: number;
-    timestamp: Date;
-    updateCount: number;
+    value: Signal<number>;
+    timestamp: Signal<Date>;
+    updateCount: Signal<number>;
   };
 
   @ViewChild('cardElement', { static: true })

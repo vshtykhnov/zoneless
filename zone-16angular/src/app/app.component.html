@@ -5,6 +5,7 @@
 
 <div style="margin-bottom:16px;">
   <button (click)="view = 'async-signals'">Async Pipe & Signals Demo</button>
+  <button (click)="view = 'cards'">Cards Signals Demo</button>
 </div>
 
 <div #appContainer class="block" *ngIf="view==='async-signals'">
@@ -19,4 +20,8 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="view === 'cards'">
+  <app-async-signals-demo></app-async-signals-demo>
 </div>
