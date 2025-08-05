@@ -19,7 +19,7 @@ import { FlashService } from '../../../services/flash.service';
   template: `
     <div #container class="block">
       <div class="content-section">
-        <p>ParentComponent (OnPush){{ isRefreshPhase ? flash() : '' }}</p>
+        <p>ParentComponent (Default){{ isRefreshPhase ? flash() : '' }}</p>
         <app-child [isRefreshPhase]="isRefreshPhase"></app-child>
       </div>
     </div>
@@ -37,7 +37,7 @@ import { FlashService } from '../../../services/flash.service';
       transition: box-shadow 0.2s ease; 
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ParentComponent implements DoCheck {
   @ViewChild('container', { static: true }) container!: ElementRef<HTMLElement>;
